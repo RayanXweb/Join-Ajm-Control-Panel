@@ -70,6 +70,8 @@ button{width:100%;padding:14px;margin-top:15px;border:none;border-radius:10px;ba
 
 <input id="nama" placeholder="Nama">
 <input id="wa" type="tel" placeholder="WhatsApp" pattern="[0-9+]*">
+<input id="telegram" placeholder="ID Telegram (opsional)">
+
 <select id="paket" onchange="showQRIS()">
 <option>Perbulan</option>
 <option>Permanen</option>
@@ -124,16 +126,63 @@ function showQRIS(){
 
 // ORDER + Kirim bukti Telegram
 async function order(){
-  let nama=document.getElementById("nama").value;
-  let paket=document.getElementById("paket").value;
-  let bukti=document.getElementById("bukti").files[0];
-  if(!nama || !bukti){alert("Mohon isi nama dan upload bukti pembayaran");return;}
-  const botToken="8551955759:AAEmZC8On5B3AUHTDCZS6jpCT9xTUAYVR24"; // Ganti token bot
-  const chatId="8215645360";     // Ganti chat_id tujuan
-  let text=`Halo Admin, saya ${nama} sudah bayar paket ${paket}. Mohon verifikasi.`;
-  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:chatId,text:text})});
-  let formData=new FormData(); formData.append("chat_id",chatId); formData.append("photo",bukti); formData.append("caption",`Bukti pembayaran dari ${nama} untuk paket ${paket}`);
-  fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`,{method:"POST",body:formData}).then(res=>alert("Bukti berhasil dikirim ke Telegram!")).catch(err=>alert("Gagal kirim bukti: "+err));
+  let nama = document.getElementById("nama").value.trim();
+  let paket = document.getElementById("paket").value;
+  let bukti = document.getElementById("bukti").files[0];
+  let telegram = document.getElementById("telegram") ? document.getElementById("telegram").value : "";
+
+  // VALIDASI
+  if(!nama || !bukti){
+    alert("Mohon isi nama dan upload bukti pembayaran");
+    return;
+  }
+
+  if(!bukti.type.startsWith("image/")){
+    alert("File harus berupa gambar!");
+    return;
+  }
+
+  // LOADING UI
+  document.body.innerHTML = `
+  <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#0f2027;color:white;flex-direction:column;">
+    <h2>⏳ Mengirim data...</h2>
+    <p style="font-size:12px;color:#aaa;">Mohon tunggu sebentar</p>
+  </div>`;
+
+  let formData = new FormData();
+  formData.append("nama", nama);
+  formData.append("paket", paket);
+  formData.append("telegram", telegram);
+  formData.append("bukti", bukti);
+
+  try{
+    let res = await fetch("/api/order", {
+      method: "POST",
+      body: formData
+    });
+
+    let data = await res.json();
+
+    if(data.success){
+      document.body.innerHTML = `
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#0f2027;color:white;flex-direction:column;">
+        <h2>✅ Pembayaran berhasil!</h2>
+        <p>Mengalihkan ke admin...</p>
+      </div>`;
+
+      setTimeout(()=>{
+        location.href = "https://t.me/Aldinugroho378";
+      },2000);
+
+    } else {
+      alert("Gagal: " + data.error);
+      location.reload();
+    }
+
+  }catch(err){
+    alert("Terjadi kesalahan: " + err);
+    location.reload();
+  }
 }
 
 // CHAT (fab)
