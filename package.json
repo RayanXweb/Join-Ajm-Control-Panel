@@ -1,0 +1,9 @@
+{
+  "name": "ajm-backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.6.7"
+  }
+}
