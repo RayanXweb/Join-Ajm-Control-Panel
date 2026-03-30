@@ -117,7 +117,10 @@ text-align:center;text-decoration:none;color:black;font-weight:bold;
 
 /* VIDEO */
 .video-box{
-margin-top:10px;border-radius:15px;overflow:hidden;
+margin-top:10px;
+border-radius:15px;
+overflow:hidden;
+position:relative;
 }
 
 /* FLOAT */
@@ -214,10 +217,18 @@ display:none;font-size:12px;
 
 <a href="https://t.me/afifahtestimoni" class="btn-testi">🔥 Lihat Testimoni</a>
 
-<div class="video-box">
-<video width="100%" autoplay muted loop>
+<div class="video-box" oncontextmenu="return false;">
+<video width="100%" autoplay muted loop playsinline controlsList="nodownload" disablePictureInPicture>
 <source src="https://image2url.com/r2/default/videos/1774852561112-24d1e19d-5532-49d4-a74b-4069d712273b.mp4">
 </video>
+
+<!-- overlay anti klik -->
+<div style="
+position:absolute;
+top:0;left:0;width:100%;height:100%;
+z-index:2;
+"></div>
+
 </div>
 
 </div>
@@ -295,7 +306,25 @@ document.getElementById("countdown").innerText=
 `🔥 Promo berakhir dalam ${j}j ${m}m ${d}d`;
 t--; if(t<=0) t=72*3600;
 },1000);
+// DISABLE RIGHT CLICK
+document.addEventListener('contextmenu', e => e.preventDefault());
 
+// DISABLE SHORTCUT DOWNLOAD / INSPECT
+document.onkeydown = function(e) {
+  if (e.ctrlKey && (e.key === 's' || e.key === 'u')) {
+    return false;
+  }
+  if (e.key === 'F12') {
+    return false;
+  }
+};
+
+// ANTI DRAG VIDEO
+document.addEventListener('dragstart', function(e) {
+  if (e.target.tagName === 'VIDEO') {
+    e.preventDefault();
+  }
+});
 </script>
 
 </body>
