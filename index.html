@@ -78,7 +78,6 @@ background:rgba(255,255,255,0.05);
 text-align:center;
 }
 .price{color:#00e5ff;}
-.dp{color:yellow;font-size:12px;margin-top:5px;}
 
 /* FORM */
 input,select{
@@ -191,7 +190,7 @@ display:none;font-size:12px;
 <p>Perbulan: <span class="price">Rp 300.000</span></p>
 <p>Permanen: <span class="price">Rp 600.000</span></p>
 <p>Premium: <span class="price">Rp 900.000</span></p>
-<div class="dp">💰 Ragu? Bisa DP 50%</div>
+<div class="dp" style="color:#ff4d4d;"><b>ANTI NEGO</b></div>
 </div>
 
 <!-- FORM -->
@@ -279,16 +278,18 @@ harga.innerText="Total: Rp 900.000";
 }
 
 // ORDER WA
+// ORDER TELEGRAM
 function order(){
-let nama=document.getElementById("nama").value;
-let paket=document.getElementById("paket").value;
+  let nama = document.getElementById("nama").value;
+  let paket = document.getElementById("paket").value;
 
-let text=`Halo Admin, saya ${nama} sudah bayar paket ${paket}. Mohon verifikasi.`;
+  let text = `Halo Admin, saya ${nama} sudah bayar paket ${paket}. Mohon verifikasi.`;
 
-window.open(`https://wa.me/6283869335367?text=${encodeURIComponent(text)}`);
+  // Ganti link WA ke Telegram
+  window.open(`https://t.me/Aldinugroho378?text=${encodeURIComponent(text)}`);
 }
 
-// CHAT
+// CHAT (fab)
 function chat(){ 
   window.open("https://t.me/Aldinugroho378"); 
 }
