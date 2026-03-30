@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJM Premium Control</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{
+background: radial-gradient(circle,#0f2027,#203a43,#2c5364);
+color:white;
+}
+.container{max-width:420px;margin:auto;padding:15px;}
+
+/* HERO */
+.hero{
+padding:15px;border-radius:20px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+box-shadow:0 0 30px rgba(0,255,255,0.3);
+text-align:center;
+}
+.hero-img{
+height:200px;border-radius:15px;
+background:url('https://image2url.com/r2/default/images/1774850842913-abe69c2e-f856-4581-a3b0-fcf0d75d2836.jpg') center/cover;
+margin-bottom:10px;
+}
+
+/* INFO */
+.live{color:#00ffcc;font-size:12px;}
+.countdown{color:#ff4d4d;font-size:13px;}
+
+/* CARD */
+.card{
+display:flex;justify-content:space-between;
+padding:15px;margin-top:12px;
+border-radius:18px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+cursor:pointer;
+transition:0.3s;
+}
+.card:hover{transform:scale(1.03);}
+.left{display:flex;gap:15px;}
+.icon{width:45px;height:45px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.text h3{font-size:14px;}
+.text p{font-size:11px;color:#aaa;}
+
+.blue{background:#00c6ff33;color:#00e5ff;}
+.green{background:#00ff8833;color:#00ff88;}
+.red{background:#ff4d4d33;color:#ff4d4d;}
+.purple{background:#8e2de233;color:#b388ff;}
+.yellow{background:#ffc10733;color:#ffc107;}
+.cyan{background:#00ffff33;color:#00ffff;}
+
+/* POPUP */
+.popup{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.7);
+display:none;align-items:center;justify-content:center;
+z-index:999;
+}
+.popup-box{
+background:#0f2027;padding:20px;border-radius:15px;text-align:center;
+animation:fade 0.3s;
+}
+@keyframes fade{from{opacity:0;transform:scale(0.8);}to{opacity:1;}}
+.close{
+margin-top:10px;padding:10px;border:none;
+background:red;color:white;border-radius:10px;
+}
+
+/* PRICING */
+.pricing{
+margin-top:15px;padding:15px;border-radius:15px;
+background:rgba(255,255,255,0.05);
+text-align:center;
+}
+.price{color:#00e5ff;}
+.dp{color:yellow;font-size:12px;margin-top:5px;}
+
+/* FORM */
+input,select{
+width:100%;padding:12px;margin-top:10px;
+border:none;border-radius:10px;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+button{
+width:100%;padding:14px;margin-top:15px;
+border:none;border-radius:10px;
+background:linear-gradient(45deg,#00f2fe,#4facfe);
+font-weight:bold;cursor:pointer;
+}
+
+/* QRIS */
+.qris-box{
+margin-top:15px;
+padding:15px;
+border-radius:15px;
+background:rgba(255,255,255,0.05);
+text-align:center;
+display:none;
+}
+.qris-box img{
+width:200px;border-radius:10px;margin-top:10px;
+}
+
+/* TESTI */
+.btn-testi{
+display:block;margin-top:10px;
+background:linear-gradient(45deg,#ff9800,#ffc107);
+padding:10px;border-radius:10px;
+text-align:center;text-decoration:none;color:black;font-weight:bold;
+}
+
+/* VIDEO */
+.video-box{
+margin-top:10px;border-radius:15px;overflow:hidden;
+}
+
+/* FLOAT */
+.fab{
+position:fixed;right:20px;bottom:20px;
+width:55px;height:55px;border-radius:50%;
+background:linear-gradient(45deg,#7b2ff7,#f107a3);
+display:flex;align-items:center;justify-content:center;
+font-size:22px;
+}
+
+/* NOTIF */
+#notif{
+position:fixed;bottom:90px;left:20px;
+background:black;padding:10px;border-radius:10px;
+display:none;font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+<div class="hero-img"></div>
+<h2>AJM CONTROL PANEL</h2>
+<div class="live" id="live"></div>
+<div style="font-size:12px;color:#00ffcc;margin-top:3px;">
+⚡ 250+ user aktif hari ini
+</div>
+<div class="countdown" id="countdown"></div>
+</div>
+
+<!-- FEATURES (FULL TIDAK DIHAPUS) -->
+<div class="card" onclick="openPopup('Monitor layar realtime tanpa delay')">
+<div class="left"><div class="icon blue">🖥️</div>
+<div class="text"><h3>Monitor Layar</h3><p>Pantau layar realtime</p></div></div>→</div>
+
+<div class="card" onclick="openPopup('Akses kamera depan & belakang')">
+<div class="left"><div class="icon green">📷</div>
+<div class="text"><h3>Kamera</h3><p>Akses kamera</p></div></div>→</div>
+
+<div class="card" onclick="openPopup('Kunci HP dari jarak jauh')">
+<div class="left"><div class="icon red">🔒</div>
+<div class="text"><h3>Device Control</h3><p>Kunci perangkat</p></div></div>→</div>
+
+<div class="card" onclick="openPopup('Monitoring semua aktivitas chat')">
+<div class="left"><div class="icon purple">💬</div>
+<div class="text"><h3>Chat Monitor</h3><p>Monitoring chat</p></div></div>→</div>
+
+<div class="card" onclick="openPopup('Riwayat panggilan lengkap')">
+<div class="left"><div class="icon yellow">📞</div>
+<div class="text"><h3>Log Panggilan</h3><p>Riwayat telepon</p></div></div>→</div>
+
+<div class="card" onclick="openPopup('Cek baterai & RAM device')">
+<div class="left"><div class="icon cyan">⚙️</div>
+<div class="text"><h3>Hardware Info</h3><p>Status device</p></div></div>→</div>
+
+<div class="card" onclick="openPopup('Tracking GPS realtime akurat')">
+<div class="left"><div class="icon blue">🌍</div>
+<div class="text"><h3>Lacak Lokasi</h3><p>Realtime GPS</p></div></div>→</div>
+
+<!-- PRICING -->
+<div class="pricing">
+<h3>🔥 Paket Harga</h3>
+<p>Perbulan: <span class="price">Rp 300.000</span></p>
+<p>Permanen: <span class="price">Rp 600.000</span></p>
+<p>Premium: <span class="price">Rp 900.000</span></p>
+<div class="dp">💰 Ragu? Bisa DP 50%</div>
+</div>
+
+<!-- FORM -->
+<input id="nama" placeholder="Nama">
+<input id="wa" type="tel" placeholder="WhatsApp" pattern="[0-9+]*">
+
+<select id="paket" onchange="showQRIS()">
+<option>Perbulan</option>
+<option>Permanen</option>
+<option>Premium</option>
+</select>
+
+<!-- QRIS -->
+<div class="qris-box" id="qrisBox">
+<h3>Scan QRIS</h3>
+<p id="qrisHarga"></p>
+<img id="qrisImg">
+<input type="file" id="bukti" accept="image/*">
+<p style="font-size:11px;color:#aaa;">Upload bukti pembayaran</p>
+</div>
+
+<button onclick="order()">🚀 Order Sekarang</button>
+
+<a href="https://t.me/afifahtestimoni" class="btn-testi">🔥 Lihat Testimoni</a>
+
+<div class="video-box">
+<video width="100%" autoplay muted loop>
+<source src="https://image2url.com/r2/default/videos/1774852561112-24d1e19d-5532-49d4-a74b-4069d712273b.mp4">
+</video>
+</div>
+
+</div>
+
+<!-- POPUP (TETAP ADA) -->
+<div class="popup" id="popup">
+<div class="popup-box">
+<h3>Detail Fitur</h3>
+<p id="popupText"></p>
+<button class="close" onclick="closePopup()">Tutup</button>
+</div>
+</div>
+
+<div class="fab" onclick="chat()">💬</div>
+<div id="notif"></div>
+
+<script>
+
+// POPUP (TETAP)
+function openPopup(text){
+document.getElementById("popupText").innerText=text;
+document.getElementById("popup").style.display="flex";
+}
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+// QRIS
+function showQRIS(){
+let paket=document.getElementById("paket").value;
+let img=document.getElementById("qrisImg");
+let harga=document.getElementById("qrisHarga");
+
+document.getElementById("qrisBox").style.display="block";
+
+if(paket=="Perbulan"){
+img.src="https://image2url.com/r2/default/images/1774850766818-fd5031db-cef8-4947-9971-73dde018817b.png";
+harga.innerText="Total: Rp 300.000";
+}
+if(paket=="Permanen"){
+img.src="https://image2url.com/r2/default/images/1774850766818-fd5031db-cef8-4947-9971-73dde018817b.png";
+harga.innerText="Total: Rp 600.000";
+}
+if(paket=="Premium"){
+img.src="https://image2url.com/r2/default/images/1774850766818-fd5031db-cef8-4947-9971-73dde018817b.png";
+harga.innerText="Total: Rp 900.000";
+}
+}
+
+// ORDER WA
+function order(){
+let nama=document.getElementById("nama").value;
+let paket=document.getElementById("paket").value;
+
+let text=`Halo Admin, saya ${nama} sudah bayar paket ${paket}. Mohon verifikasi.`;
+
+window.open(`https://wa.me/6283869335367?text=${encodeURIComponent(text)}`);
+}
+
+// CHAT
+function chat(){ 
+  window.open("https://t.me/Aldinugroho378"); 
+}
+
+// LIVE
+document.getElementById("live").innerText="👀 300 orang sedang melihat";
+
+// COUNTDOWN
+let t=72*3600;
+setInterval(()=>{
+let j=Math.floor(t/3600);
+let m=Math.floor((t%3600)/60);
+let d=t%60;
+document.getElementById("countdown").innerText=
+`🔥 Promo berakhir dalam ${j}j ${m}m ${d}d`;
+t--; if(t<=0) t=72*3600;
+},1000);
+
+</script>
+
+</body>
+</html>
