@@ -1,216 +1,353 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AJM Premium Control</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-body{background: radial-gradient(circle,#0f2027,#203a43,#2c5364);color:white;}
-.container{max-width:420px;margin:auto;padding:15px;}
-.hero{padding:15px;border-radius:20px;background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);box-shadow:0 0 30px rgba(0,255,255,0.3);text-align:center;}
-.hero-img{height:200px;border-radius:15px;background:url('https://image2url.com/r2/default/images/1774850842913-abe69c2e-f856-4581-a3b0-fcf0d75d2836.jpg') center/cover;margin-bottom:10px;}
-.live{color:#00ffcc;font-size:12px;}
-.countdown{color:#ff4d4d;font-size:13px;}
-.card{display:flex;justify-content:space-between;padding:15px;margin-top:12px;border-radius:18px;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);cursor:pointer;transition:0.3s;}
-.card:hover{transform:scale(1.03);}
-.left{display:flex;gap:15px;}
-.icon{width:45px;height:45px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.text h3{font-size:14px;}
-.text p{font-size:11px;color:#aaa;}
-.blue{background:#00c6ff33;color:#00e5ff;}
-.green{background:#00ff8833;color:#00ff88;}
-.red{background:#ff4d4d33;color:#ff4d4d;}
-.purple{background:#8e2de233;color:#b388ff;}
-.yellow{background:#ffc10733;color:#ffc107;}
-.cyan{background:#00ffff33;color:#00ffff;}
-.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:999;}
-.popup-box{background:#0f2027;padding:20px;border-radius:15px;text-align:center;animation:fade 0.3s;}
-@keyframes fade{from{opacity:0;transform:scale(0.8);}to{opacity:1;}}
-.close{margin-top:10px;padding:10px;border:none;background:red;color:white;border-radius:10px;}
-.pricing{margin-top:15px;padding:15px;border-radius:15px;background:rgba(255,255,255,0.05);text-align:center;}
-.price{color:#00e5ff;}
-input,select{width:100%;padding:12px;margin-top:10px;border:none;border-radius:10px;background:rgba(255,255,255,0.1);color:white;}
-button{width:100%;padding:14px;margin-top:15px;border:none;border-radius:10px;background:linear-gradient(45deg,#00f2fe,#4facfe);font-weight:bold;cursor:pointer;}
-.qris-box{margin-top:15px;padding:15px;border-radius:15px;background:rgba(255,255,255,0.05);text-align:center;display:none;}
-.qris-box img{width:200px;border-radius:10px;margin-top:10px;}
-.btn-testi{display:block;margin-top:10px;background:linear-gradient(45deg,#ff9800,#ffc107);padding:10px;border-radius:10px;text-align:center;text-decoration:none;color:black;font-weight:bold;}
-.video-box{margin-top:10px;border-radius:15px;overflow:hidden;position:relative;}
-.fab{position:fixed;right:20px;bottom:20px;width:55px;height:55px;border-radius:50%;background:linear-gradient(45deg,#7b2ff7,#f107a3);display:flex;align-items:center;justify-content:center;font-size:22px;}
-#notif{position:fixed;bottom:90px;left:20px;background:black;padding:10px;border-radius:10px;display:none;font-size:12px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJM PREMIUM - Total Control v13.5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --bg: #020617;
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --stealer: #f43f5e;
+            --success: #25D366;
+            --telegram: #0088cc;
+            --accent: #f59e0b;
+        }
+
+        /* RESET & BASE */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-user-select: none; 
+            user-select: none;
+        }
+        
+        body { 
+            background: var(--bg);
+            background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #020617 80%);
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        .container { max-width: 450px; margin: auto; padding: 20px; padding-bottom: 120px; }
+
+        /* HEADER & BRANDING */
+        .testi-btn {
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--accent), #d97706);
+            color: white; padding: 14px; border-radius: 20px; text-decoration: none;
+            font-size: 13px; font-weight: 800; margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.2);
+            transition: transform 0.2s;
+        }
+        .testi-btn:active { transform: scale(0.98); }
+
+        .brand-section { text-align: center; margin-bottom: 30px; }
+        .brand-section h1 { 
+            font-size: 32px; font-weight: 800; 
+            background: linear-gradient(to right, #fff, var(--primary)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+
+        .video-box { 
+            background: var(--card-bg); border: 1px solid var(--border); 
+            border-radius: 32px; padding: 6px; margin-top: 20px; 
+        }
+        video { width: 100%; border-radius: 26px; display: block; }
+
+        .desc-box {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--border); border-radius: 24px;
+            padding: 20px; margin-top: 20px; text-align: center; backdrop-filter: blur(5px);
+        }
+        .desc-box b { color: var(--primary); }
+
+        /* FEATURES */
+        .section-tag { 
+            font-size: 12px; font-weight: 800; color: #94a3b8; 
+            display: flex; align-items: center; gap: 8px; 
+            text-transform: uppercase; margin: 35px 0 15px; 
+        }
+        .section-tag::before { content: ""; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; }
+
+        .f-card { 
+            background: var(--card-bg); border: 1px solid var(--border); 
+            padding: 18px 22px; border-radius: 24px; display: flex; 
+            align-items: center; gap: 18px; cursor: pointer; margin-bottom: 12px;
+        }
+        .f-icon-circle { 
+            width: 48px; height: 48px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            background: rgba(255, 255, 255, 0.03); font-size: 20px; 
+        }
+        .f-info h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; }
+        .f-info p { font-size: 11px; color: #64748b; }
+
+        .more-content { display: none; }
+
+        .btn-more { 
+            background: transparent; border: 1px solid var(--border); 
+            color: var(--primary); width: 100%; padding: 14px; 
+            border-radius: 18px; font-size: 12px; font-weight: 800; cursor: pointer; 
+        }
+
+        /* STEALER GRID */
+        .stealer-header { width: 100%; border-radius: 24px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .stealer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .s-card { 
+            background: linear-gradient(145deg, rgba(244, 63, 94, 0.1), var(--card-bg)); 
+            border: 1px solid rgba(244, 63, 94, 0.15); padding: 20px 15px; 
+            border-radius: 28px; text-align: center; cursor: pointer;
+        }
+        .s-card img { width: 40px; margin-bottom: 10px; }
+
+        /* PAYMENT FORM */
+        .form-box { 
+            background: rgba(255,255,255,0.02); padding: 25px; 
+            border-radius: 32px; border: 1px solid var(--border); margin-top: 20px; 
+        }
+        input, select { 
+            width: 100%; padding: 16px; margin-bottom: 15px; 
+            border-radius: 18px; background: #0f172a; border: 1px solid var(--border); 
+            color: white; outline: none; appearance: none;
+        }
+        
+        .payment-options { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .opt-card { 
+            background: #0f172a; border: 1px solid var(--border); 
+            padding: 15px; border-radius: 20px; text-align: center; cursor: pointer; 
+        }
+        .opt-card.active { border-color: var(--primary); background: rgba(0, 242, 254, 0.1); }
+
+        .qris-area { 
+            background: white; padding: 20px; border-radius: 30px; 
+            display: none; text-align: center; color: #000; margin-top: 15px;
+        }
+        .qris-area img { width: 100%; max-width: 200px; user-select: auto !important; }
+        
+        .admin-chat-grid { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .chat-btn { 
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            padding: 15px; border-radius: 18px; color: white; text-decoration: none; 
+            font-weight: 800; font-size: 12px; 
+        }
+
+        /* MODAL */
+        .overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); 
+            display: none; align-items: center; justify-content: center; 
+            z-index: 1000; padding: 20px; backdrop-filter: blur(10px);
+        }
+        .modal { 
+            background: #1e293b; padding: 30px; border-radius: 32px; 
+            text-align: center; width: 100%; border: 1px solid var(--border); 
+        }
+    </style>
 </head>
+<body oncontextmenu="return false;">
 
-<body>
 <div class="container">
-<div class="hero">
-<div class="hero-img"></div>
-<h2>AJM CONTROL PANEL</h2>
-<div class="live" id="live"></div>
-<div style="font-size:12px;color:#00ffcc;margin-top:3px;">⚡ 250+ user aktif hari ini</div>
-<div class="countdown" id="countdown"></div>
+    <a href="https://t.me/+qqIoxrd-jkM4MWY1" class="testi-btn">⭐ LIHAT TESTIMONI KEBERHASILAN ⭐</a>
+
+    <div class="brand-section">
+        <p style="font-size: 10px; letter-spacing: 2px; color: #64748b; font-weight: 800;">ENCRYPTED CONNECTION ACTIVE</p>
+        <h1>AJM PREMIUM</h1>
+        <div class="video-box">
+            <video autoplay muted loop playsinline><source src="https://image2url.com/r2/default/videos/1774852561112-24d1e19d-5532-49d4-a74b-4069d712273b.mp4"></video>
+        </div>
+    </div>
+
+    <div class="desc-box">
+        <p>Solusi monitoring tercanggih untuk memantau aktivitas anak & orang tercinta secara akurat, aman, dan realtime menggunakan <b>Private NAS Server</b>.</p>
+    </div>
+
+    <div class="section-tag">Monitoring & Remote Access</div>
+    <div class="feature-list">
+        <div class="f-card" onclick="pop('Monitor Layar', 'Pantau layar target secara realtime tanpa diketahui sedikitpun oleh target.')">
+            <div class="f-icon-circle" style="color: #00f2fe;">🖥️</div>
+            <div class="f-info"><h3>MONITOR LAYAR</h3><p>pantau layar target secara realti...</p></div>
+        </div>
+        <div class="f-card" onclick="pop('Kamera Rahasia', 'Akses kamera depan/belakang target secara diam-diam tanpa ada notifikasi.')">
+            <div class="f-icon-circle" style="color: #22c55e;">📷</div>
+            <div class="f-info"><h3>KAMERA RAHASIA</h3><p>akses kamera depan/belakang t...</p></div>
+        </div>
+        <div class="f-card" onclick="pop('Device Control', 'Kunci perangkat atau aplikasi tertentu secara remote melalui kontrol panel.')">
+            <div class="f-icon-circle" style="color: #f43f5e;">🔒</div>
+            <div class="f-info"><h3>DEVICE CONTROL</h3><p>kunci perangkat atau aplikasi s...</p></div>
+        </div>
+        <div class="f-card" onclick="pop('Chat Monitor', 'Baca isi semua chat WhatsApp, Telegram, Instagram secara lengkap dan live.')">
+            <div class="f-icon-circle" style="color: #a855f7;">💬</div>
+            <div class="f-info"><h3>CHAT MONITOR</h3><p>baca isi semua chat (wa, tg, ig, ...)</p></div>
+        </div>
+
+        <div id="moreAJM" class="more-content">
+            <div class="f-card" onclick="pop('Log Panggilan', 'Lihat riwayat telepon keluar/masuk dan daftar kontak lengkap target.')">
+                <div class="f-icon-circle" style="color: #f59e0b;">👥</div>
+                <div class="f-info"><h3>LOG PANGGILAN</h3><p>riwayat telepon & daftar kontak ...</p></div>
+            </div>
+            <div class="f-card" onclick="pop('Hardware Info', 'Pantau status baterai, RAM, dan kualitas sinyal perangkat target secara live.')">
+                <div class="f-icon-circle" style="color: #3b82f6;">⚙️</div>
+                <div class="f-info"><h3>HARDWARE INFO</h3><p>pantau status baterai, ram, & si...</p></div>
+            </div>
+            <div class="f-card" onclick="pop('Lacak Lokasi', 'Lacak posisi perangkat secara akurat melalui GPS dan riwayat perjalanan.')">
+                <div class="f-icon-circle" style="color: #10b981;">🌐</div>
+                <div class="f-info"><h3>LACAK LOKASI</h3><p>lacak posisi perangkat secara a...</p></div>
+            </div>
+            <div class="f-card" onclick="pop('Live Camera', 'Streaming video secara langsung dari kamera perangkat target kapanpun.')">
+                <div class="f-icon-circle" style="color: #22c55e;">📸</div>
+                <div class="f-info"><h3>LIVE CAMERA</h3><p>stream video langsung dari kam...</p></div>
+            </div>
+            <div class="f-card" onclick="pop('Device Lock Pro', 'Fitur penguncian tingkat tinggi yang tidak bisa dibuka tanpa kode khusus.')">
+                <div class="f-icon-circle" style="color: #eab308;">🔐</div>
+                <div class="f-info"><h3>DEVICE LOCK PRO</h3><p>fitur kunci level admin yang suli...</p></div>
+            </div>
+            <div class="f-card" onclick="pop('App Manager', 'Kelola, blokir, atau hapus aplikasi yang ada pada perangkat target secara remote.')">
+                <div class="f-icon-circle" style="color: #3b82f6;">🛡️</div>
+                <div class="f-info"><h3>APP MANAGEMENT</h3><p>blokir aplikasi tertentu secara p...</p></div>
+            </div>
+            <div class="f-card" onclick="pop('Stealth Mode', 'Fitur untuk menyembunyikan ikon AJM sehingga mustahil ditemukan target.')">
+                <div class="f-icon-circle" style="color: #94a3b8;">👻</div>
+                <div class="f-info"><h3>STEALTH MODE</h3><p>sembunyikan ikon aplikasi agar ...</p></div>
+            </div>
+        </div>
+        <button class="btn-more" id="btnAJM" onclick="toggleMore()">LIHAT SEMUA FITUR LENGKAP</button>
+    </div>
+
+    <div class="section-tag" style="color: var(--stealer);">Stealer Operations Pro</div>
+    <img src="https://image2url.com/r2/default/images/1774992577224-11be41c8-88be-40c3-8a8b-57d25ff0acca.jpg" class="stealer-header" alt="Stealer System">
+    
+    <div class="desc-box">
+        <div class="desc-header" style="font-weight: 800; margin-bottom: 10px;">
+            <span>🛡️</span> Lumma Stealer Analysis
+        </div>
+        <p class="desc-content" style="font-size: 13px;">
+            <strong>Lumma Stealer</strong> adalah malware <em>Information Stealer</em> berbasis C++ yang dioperasikan dengan model MaaS. Malware ini secara otomatis mengeksfiltrasi data sensitif seperti kredensial peramban dan dompet kripto dari perangkat korban menuju server C2.
+        </p>
+    </div>
+
+    <div class="stealer-grid" style="margin-top: 15px;">
+        <div class="s-card" onclick="pop('Pass Stealer', 'Mengambil seluruh password yang tersimpan di browser.')">
+            <img src="https://img.icons8.com/fluency/48/password-window.png">
+            <h3>Pass Stealer</h3>
+        </div>
+        <div class="s-card" onclick="pop('OTP Intercept', 'Otomatis mencegat dan meneruskan kode OTP SMS.')">
+            <img src="https://img.icons8.com/fluency/48/sms.png">
+            <h3>OTP Intercept</h3>
+        </div>
+    </div>
+
+    <div class="section-tag">Aktivasi & Pembayaran</div>
+    <div class="form-box">
+        <input id="userName" type="text" placeholder="Nama Lengkap">
+        <select id="userPlan" onchange="handlePlanChange()">
+            <option value="" disabled selected>Pilih Paket Aktivasi</option>
+            <option value="Bulanan" data-price="300000" data-dp="false">AJM Bulanan - 300rb</option>
+            <option value="Tahunan" data-price="600000" data-dp="true">AJM Tahunan - 600rb</option>
+            <option value="Permanen" data-price="900000" data-dp="true">AJM Permanen - 900rb</option>
+            <option value="Stealer" data-price="1200000" data-dp="true">STEALER PRO - 1.2jt</option>
+        </select>
+
+        <div id="paymentOptions" class="payment-options">
+            <div class="opt-card" id="optLunas" onclick="selectPay('Lunas')"><h4>Bayar Lunas</h4></div>
+            <div class="opt-card" id="optDP" onclick="selectPay('DP')"><h4>DP 60%</h4></div>
+        </div>
+
+        <div id="qrisBox" class="qris-area">
+            <p style="font-size: 11px; font-weight: 700; margin-bottom: 10px;">SCAN QRIS UNTUK PEMBAYARAN</p>
+            <img src="https://image2url.com/r2/default/images/1774994780969-3206b975-d7c3-431c-b9cb-8e9ee5c13fde.png">
+            <span id="displayAmount" style="font-size: 24px; font-weight: 800; color: #059669; display: block; margin-top: 10px;"></span>
+        </div>
+
+        <div id="adminChats" class="admin-chat-grid">
+            <a href="#" class="chat-btn" style="background: var(--success);" onclick="sendOrder('WA')">WHATSAPP</a>
+            <a href="#" class="chat-btn" style="background: var(--telegram);" onclick="sendOrder('TG')">TELEGRAM</a>
+        </div>
+    </div>
 </div>
 
-<!-- FEATURES -->
-<div class="card" onclick="openPopup('Monitor layar realtime tanpa delay')"><div class="left"><div class="icon blue">🖥️</div><div class="text"><h3>Monitor Layar</h3><p>Pantau layar realtime</p></div></div>→</div>
-<div class="card" onclick="openPopup('Akses kamera depan & belakang')"><div class="left"><div class="icon green">📷</div><div class="text"><h3>Kamera</h3><p>Akses kamera</p></div></div>→</div>
-<div class="card" onclick="openPopup('Kunci HP dari jarak jauh')"><div class="left"><div class="icon red">🔒</div><div class="text"><h3>Device Control</h3><p>Kunci perangkat</p></div></div>→</div>
-<div class="card" onclick="openPopup('Monitoring semua aktivitas chat')"><div class="left"><div class="icon purple">💬</div><div class="text"><h3>Chat Monitor</h3><p>Monitoring chat</p></div></div>→</div>
-<div class="card" onclick="openPopup('Riwayat panggilan lengkap')"><div class="left"><div class="icon yellow">📞</div><div class="text"><h3>Log Panggilan</h3><p>Riwayat telepon</p></div></div>→</div>
-<div class="card" onclick="openPopup('Cek baterai & RAM device')"><div class="left"><div class="icon cyan">⚙️</div><div class="text"><h3>Hardware Info</h3><p>Status device</p></div></div>→</div>
-<div class="card" onclick="openPopup('Tracking GPS realtime akurat')"><div class="left"><div class="icon blue">🌍</div><div class="text"><h3>Lacak Lokasi</h3><p>Realtime GPS</p></div></div>→</div>
-
-<div class="pricing">
-<h3>🔥 Paket Harga</h3>
-<p>Perbulan: <span class="price">Rp 300.000</span></p>
-<p>Permanen: <span class="price">Rp 600.000</span></p>
-<p>Premium: <span class="price">Rp 900.000</span></p>
-<div class="dp" style="color:#ff4d4d;"><b>ANTI NEGO</b></div>
+<div class="overlay" id="modal">
+    <div class="modal">
+        <h3 id="mTitle" style="color:var(--primary)"></h3>
+        <p id="mText" style="color:#94a3b8; margin: 20px 0; font-size: 14px;"></p>
+        <button onclick="closePop()" style="background:var(--primary); border:none; color:#000; padding:12px 25px; border-radius:15px; font-weight:700; cursor:pointer;">MENGERTI</button>
+    </div>
 </div>
-
-<input id="nama" placeholder="Nama">
-<input id="wa" type="tel" placeholder="WhatsApp" pattern="[0-9+]*">
-<input id="telegram" placeholder="ID Telegram (opsional)">
-
-<select id="paket" onchange="showQRIS()">
-<option>Perbulan</option>
-<option>Permanen</option>
-<option>Premium</option>
-</select>
-
-<div class="qris-box" id="qrisBox">
-<h3>Scan QRIS</h3>
-<p id="qrisHarga"></p>
-<img id="qrisImg">
-<input type="file" id="bukti" accept="image/*">
-<p style="font-size:11px;color:#aaa;">Upload bukti pembayaran</p>
-</div>
-
-<button onclick="order()">🚀 Order Sekarang</button>
-<a href="https://t.me/afifahtestimoni" class="btn-testi">🔥 Lihat Testimoni</a>
-
-<div class="video-box" oncontextmenu="return false;">
-<video width="100%" autoplay muted loop playsinline controlsList="nodownload" disablePictureInPicture>
-<source src="https://image2url.com/r2/default/videos/1774852561112-24d1e19d-5532-49d4-a74b-4069d712273b.mp4">
-</video>
-<div style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;"></div>
-</div>
-</div>
-
-<div class="popup" id="popup">
-<div class="popup-box">
-<h3>Detail Fitur</h3>
-<p id="popupText"></p>
-<button class="close" onclick="closePopup()">Tutup</button>
-</div>
-</div>
-
-<div class="fab" onclick="chat()">💬</div>
-<div id="notif"></div>
 
 <script>
-// POPUP
-function openPopup(text){document.getElementById("popupText").innerText=text;document.getElementById("popup").style.display="flex";}
-function closePopup(){document.getElementById("popup").style.display="none";}
+    let currentPrice = 0;
+    let selectedMethod = '';
 
-// QRIS
-function showQRIS(){
-  let paket=document.getElementById("paket").value;
-  let img=document.getElementById("qrisImg");
-  let harga=document.getElementById("qrisHarga");
-  document.getElementById("qrisBox").style.display="block";
-  if(paket=="Perbulan"){img.src="https://image2url.com/r2/default/images/1774850766818-fd5031db-cef8-4947-9971-73dde018817b.png"; harga.innerText="Total: Rp 300.000";}
-  if(paket=="Permanen"){img.src="https://image2url.com/r2/default/images/1774850766818-fd5031db-cef8-4947-9971-73dde018817b.png"; harga.innerText="Total: Rp 600.000";}
-  if(paket=="Premium"){img.src="https://image2url.com/r2/default/images/1774850766818-fd5031db-cef8-4947-9971-73dde018817b.png"; harga.innerText="Total: Rp 900.000";}
-}
-
-// ORDER + Kirim bukti Telegram
-async function order(){
-  let nama = document.getElementById("nama").value.trim();
-  let paket = document.getElementById("paket").value;
-  let bukti = document.getElementById("bukti").files[0];
-  let telegram = document.getElementById("telegram") ? document.getElementById("telegram").value : "";
-
-  // VALIDASI
-  if(!nama || !bukti){
-    alert("Mohon isi nama dan upload bukti pembayaran");
-    return;
-  }
-
-  if(!bukti.type.startsWith("image/")){
-    alert("File harus berupa gambar!");
-    return;
-  }
-
-  // LOADING UI
-  document.body.innerHTML = `
-  <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#0f2027;color:white;flex-direction:column;">
-    <h2>⏳ Mengirim data...</h2>
-    <p style="font-size:12px;color:#aaa;">Mohon tunggu sebentar</p>
-  </div>`;
-
-  let formData = new FormData();
-  formData.append("nama", nama);
-  formData.append("paket", paket);
-  formData.append("telegram", telegram);
-  formData.append("bukti", bukti);
-
-  try{
-    let res = await fetch("/api/order", {
-      method: "POST",
-      body: formData
-    });
-
-    let data = await res.json();
-
-    if(data.success){
-      document.body.innerHTML = `
-      <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#0f2027;color:white;flex-direction:column;">
-        <h2>✅ Pembayaran berhasil!</h2>
-        <p>Mengalihkan ke admin...</p>
-      </div>`;
-
-      setTimeout(()=>{
-        location.href = "https://t.me/Aldinugroho378";
-      },2000);
-
-    } else {
-      alert("Gagal: " + data.error);
-      location.reload();
+    function toggleMore() {
+        const more = document.getElementById('moreAJM');
+        const btn = document.getElementById('btnAJM');
+        const isHidden = (window.getComputedStyle(more).display === 'none');
+        more.style.display = isHidden ? 'block' : 'none';
+        btn.innerText = isHidden ? 'TUTUP' : 'LIHAT SEMUA FITUR LENGKAP';
     }
 
-  }catch(err){
-    alert("Terjadi kesalahan: " + err);
-    location.reload();
-  }
-}
+    function pop(t, x) {
+        document.getElementById('mTitle').innerText = t;
+        document.getElementById('mText').innerText = x;
+        document.getElementById('modal').style.display = 'flex';
+    }
 
-// CHAT (fab)
-function chat(){window.open("https://t.me/Aldinugroho378");}
+    function closePop() { document.getElementById('modal').style.display = 'none'; }
 
-// LIVE
-document.getElementById("live").innerText="👀 300 orang sedang melihat";
+    function handlePlanChange() {
+        const plan = document.getElementById('userPlan');
+        const selectedOption = plan.options[plan.selectedIndex];
+        currentPrice = parseInt(selectedOption.getAttribute('data-price'));
+        const canDP = selectedOption.getAttribute('data-dp') === 'true';
 
-// COUNTDOWN
-let t=72*3600;
-setInterval(()=>{let j=Math.floor(t/3600), m=Math.floor((t%3600)/60), d=t%60; document.getElementById("countdown").innerText=`🔥 Promo berakhir dalam ${j}j ${m}m ${d}d`; t--; if(t<=0) t=72*3600;},1000);
+        document.getElementById('paymentOptions').style.display = 'grid';
+        document.getElementById('qrisBox').style.display = 'none';
+        document.getElementById('adminChats').style.display = 'none';
+        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
 
-// DISABLE RIGHT CLICK / SHORTCUT
-document.addEventListener('contextmenu', e=>e.preventDefault());
-document.onkeydown=function(e){if(e.ctrlKey&&(e.key==='s'||e.key==='u'))return false; if(e.key==='F12')return false;};
-document.addEventListener('dragstart', e=>{if(e.target.tagName==='VIDEO') e.preventDefault();});
+        document.getElementById('optDP').style.display = canDP ? 'block' : 'none';
+        
+        if(!canDP) {
+            selectPay('Lunas');
+        }
+    }
 
-// NOTIF RANDOM 300+ NAMA
-const namaRandom = [
-"Aulia","Rizky","Nadia","Fahri","Siti","Bima","Dinda","Galih","Vina","Raka",
-"Nisa","Yoga","Putri","Andi","Rani","Ilham","Aditya","Maya","Fajar","Rosa",
-"Vito","Bella","Deni","Citra","Fikri","Lia","Bayu","Nina","Rafi","Dewi",
-"Kevin","Salsa","Iqbal","Tasya","Reza","Laras","Hadi","Fina","Ardi","Mira",
-// … tambahkan sampai 300 nama sesuai kebutuhan
-];
-function showNotif(){let notif=document.getElementById("notif");let nama=namaRandom[Math.floor(Math.random()*namaRandom.length)];let paket=["Perbulan","Permanen","Premium"];let randomPaket=paket[Math.floor(Math.random()*paket.length)]; notif.innerText=`💰 ${nama} baru saja order paket ${randomPaket}`; notif.style.display="block"; setTimeout(()=>{notif.style.display="none";},3000);}
-function notifLoop(){let delay=Math.floor(Math.random()*10000)+5000; setTimeout(()=>{showNotif(); notifLoop();},delay);}
-notifLoop();
+    function selectPay(m) {
+        selectedMethod = m;
+        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
+        document.getElementById('opt' + m).classList.add('active');
+        
+        let amount = (m === 'DP') ? currentPrice * 0.6 : currentPrice;
+        document.getElementById('displayAmount').innerText = "Rp " + amount.toLocaleString('id-ID');
+        
+        document.getElementById('qrisBox').style.display = 'block';
+        document.getElementById('adminChats').style.display = 'grid';
+    }
+
+    function sendOrder(p) {
+        const name = document.getElementById('userName').value;
+        const plan = document.getElementById('userPlan').value;
+        const amountDisplay = document.getElementById('displayAmount').innerText;
+        
+        if(!name) return alert("Harap isi Nama Lengkap!");
+        
+        const text = `Halo Admin, saya *${name}* ingin aktivasi:\n\n` +
+                     `📦 *Paket:* ${plan}\n` +
+                     `💳 *Metode:* ${selectedMethod}\n` +
+                     `💰 *Total:* ${amountDisplay}\n\n` +
+                     `Mohon segera diproses.`;
+
+        if(p === 'WA') window.open(`https://wa.me/6283869335367?text=${encodeURIComponent(text)}`);
+        else window.open(`https://t.me/Aldinugroho378?text=${encodeURIComponent(text)}`);
+    }
+
+    // Security
+    document.onkeydown = (e) => {
+        if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'j')) return false;
+    };
 </script>
 </body>
 </html>
