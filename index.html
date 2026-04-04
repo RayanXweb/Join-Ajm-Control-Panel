@@ -470,19 +470,29 @@ window.addEventListener("load", () => {
 (() => {
 "use strict";
 
-// VIDEO AUTOPLAY
+// ================= CONFIG =================
+const CONFIG = {
+    TELEGRAM_BOT: "7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls",
+    CHAT_ID: "8215645360",
+    ADMIN_WA: "6283869335367",
+    ADMIN_TG: "Aldinugroho378"
+};
+
+// ================= VIDEO AUTOPLAY =================
 window.addEventListener('load', () => {
     const v = document.getElementById('headerVideo');
-    v?.play().catch(() => {
-        document.body.addEventListener('touchstart', () => v.play(), { once: true });
-    });
+    if (v) {
+        v.play().catch(() => {
+            document.body.addEventListener('touchstart', () => v.play(), { once: true });
+        });
+    }
 });
 
-// TYPING EFFECT
+// ================= TYPING EFFECT =================
 const texts = ["ACCESS GRANTED","BREACHING SECURITY","ROOT ACCESS","SYSTEM LOCKED"];
 let i=0,j=0;
 
-function type() {
+(function type(){
     const el = document.getElementById("typeEffect");
     if (!el) return;
 
@@ -494,24 +504,28 @@ function type() {
         i++; j=0;
         setTimeout(type,1500);
     } else setTimeout(type,60);
-}
-type();
+})();
 
-// TOGGLE
+// ================= TOGGLE =================
 window.toggleMore = () => {
     const more = document.getElementById('moreAJM');
-    more.style.display = more.style.display === 'block' ? 'none' : 'block';
+    if (more) {
+        more.style.display = more.style.display === 'block' ? 'none' : 'block';
+    }
 };
 
-// MODAL
+// ================= MODAL =================
 window.pop = (t,tx)=>{
     document.getElementById('mTitle').innerText=t;
     document.getElementById('mText').innerText=tx;
     document.getElementById('modal').style.display='flex';
 };
-window.closePop=()=>document.getElementById('modal').style.display='none';
 
-// PAYMENT
+window.closePop = () => {
+    document.getElementById('modal').style.display='none';
+};
+
+// ================= PAYMENT =================
 let currentPrice = 0;
 window.selectedMethod = '';
 
@@ -523,37 +537,38 @@ window.handlePlanChange = function () {
     const selected = plan.options[plan.selectedIndex];
     currentPrice = parseInt(selected.dataset.price || 0);
 
-    // tampilkan payment option
     payment.style.display = 'grid';
 
-    // reset active
     document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
 
-    // LOGIC UTAMA
     if (plan.value === 'Tahunan' || plan.value === 'Permanen') {
-        dpBtn.style.display = 'block'; // tampilkan DP
+        dpBtn.style.display = 'block';
         payment.style.gridTemplateColumns = '1fr 1fr';
     } else {
-        dpBtn.style.display = 'none'; // sembunyikan DP
+        dpBtn.style.display = 'none';
         payment.style.gridTemplateColumns = '1fr';
     }
 
-    // reset tampilan bawah
     document.getElementById('qrisBox').style.display = 'none';
     document.getElementById('adminChats').style.display = 'none';
 };
 
+// ================= PILIH METODE =================
 window.selectPay = function (method) {
+
+    if (currentPrice === 0) {
+        alert("Pilih paket dulu!");
+        return;
+    }
+
     window.selectedMethod = method;
 
-    // aktifkan tombol
     document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
     document.getElementById('opt' + method).classList.add('active');
 
-    // LOGIC HARGA
     let amount = method === 'DP'
-        ? currentPrice * 0.5   // ✅ SETENGAH (DP)
-        : currentPrice;        // FULL
+        ? currentPrice * 0.5
+        : currentPrice;
 
     document.getElementById('displayAmount').innerText =
         "Rp " + amount.toLocaleString('id-ID');
@@ -562,37 +577,51 @@ window.selectPay = function (method) {
     document.getElementById('adminChats').style.display = 'grid';
 };
 
-// ORDER
-window.sendOrder = async (p)=>{
-    const name = document.getElementById('userName').value;
+// ================= ORDER =================
+window.sendOrder = async (platform) => {
+    const name = document.getElementById('userName').value.trim();
     const plan = document.getElementById('userPlan').value;
+    const total = document.getElementById('displayAmount').innerText;
 
-    if(!name||!plan||!window.selectedMethod){
+    if (!name || !plan || !window.selectedMethod) {
         alert("Lengkapi data!");
         return;
     }
 
-    // 🔥 KIRIM KE TELEGRAM ADMIN
-    await logToAdmin("ORDER");
+    const msg = `🔥 ORDER AJM PREMIUM 🔥
+━━━━━━━━━━━━━━━━━━
+👤 Nama: ${name}
+📦 Paket: ${plan}
+💳 Metode: ${window.selectedMethod}
+💰 Total: ${total}
+━━━━━━━━━━━━━━━━━━`;
 
-    const total = document.getElementById('displayAmount').innerText;
+    // kirim ke telegram admin (optional log)
+    try {
+        await fetch(`https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CONFIG.CHAT_ID,
+                text: msg
+            })
+        });
+    } catch (e) {
+        console.log("Log gagal:", e);
+    }
 
-    const msg = `ORDER AJM
-${name}
-${plan}
-${window.selectedMethod}
-${total}`;
-
-    const url = p==="WA"
-    ? `https://wa.me/6283869335367?text=${encodeURIComponent(msg)}`
-    : `https://t.me/Aldinugroho378?text=${encodeURIComponent(msg)}`;
-
-    window.open(url,'_blank');
+    if (platform === "WA") {
+        window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(msg)}`, '_blank');
+    } else {
+        window.open(`https://t.me/${CONFIG.ADMIN_TG}`, '_blank');
+        navigator.clipboard.writeText(msg);
+        alert("Pesan disalin, tinggal paste ke Telegram");
+    }
 };
 
+// ================= UPLOAD BUKTI =================
 window.uploadBukti = async function () {
-    const fileInput = document.getElementById("uploadProof");
-    const file = fileInput.files[0];
+    const file = document.getElementById("uploadProof").files[0];
 
     if (!file) {
         alert("Upload bukti dulu!");
@@ -604,30 +633,37 @@ window.uploadBukti = async function () {
     const total = document.getElementById("displayAmount").innerText || "-";
 
     const formData = new FormData();
-    formData.append("chat_id", "8215645360");
+    formData.append("chat_id", CONFIG.CHAT_ID);
     formData.append("photo", file);
-    formData.append("caption", `
-📸 *BUKTI PEMBAYARAN*
+    formData.append("caption", `📸 BUKTI PEMBAYARAN
 ━━━━━━━━━━━━━━━━━━
 👤 ${name}
 📦 ${plan}
 💰 ${total}
 💳 ${window.selectedMethod}
-━━━━━━━━━━━━━━━━━━
-    `);
+━━━━━━━━━━━━━━━━━━`);
 
     try {
-        await fetch("https://api.telegram.org/7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls/sendPhoto", {
+        const res = await fetch(`https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT}/sendPhoto`, {
             method: "POST",
             body: formData
         });
 
-        alert("Bukti berhasil dikirim!");
+        const result = await res.json();
+
+        if (result.ok) {
+            alert("✅ Bukti berhasil dikirim!");
+        } else {
+            alert("❌ Gagal kirim!");
+            console.log(result);
+        }
+
     } catch (e) {
-        alert("Gagal upload!");
+        alert("❌ Error upload!");
         console.error(e);
     }
 };
+
 })();
 </script>
 </body>
